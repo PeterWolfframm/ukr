@@ -30,3 +30,8 @@ const places = defineCollection({
 });
 
 export const collections = { places };
+
+// Helper types for i18n
+export const locales = ['de', 'uk'] as const;
+export type Locale = typeof locales[number];
+export const defaultLocale: Locale = 'de';

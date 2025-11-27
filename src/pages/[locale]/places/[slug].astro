@@ -1,25 +1,47 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/Navbar.astro';
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/Navbar.astro';
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import { locales, type Locale, t } from '../../../i18n/utils';
 
 export async function getStaticPaths() {
   const places = await getCollection('places');
-  return places.map((place: CollectionEntry<'places'>) => ({ 
-    params: { slug: place.id }, 
-    props: { place } 
-  }));
+  
+  return places.map((place) => {
+    // Extract locale and slug from id like "de/himars-kitchen"
+    const [locale, ...slugParts] = place.id.split('/');
+    const slug = slugParts.join('/');
+    
+    return {
+      params: { locale, slug },
+      props: { place }
+    };
+  });
 }
 
-export type Props = { place: CollectionEntry<'places'> };
-const { place } = Astro.props as Props;
+interface Props {
+  place: CollectionEntry<'places'>;
+}
+
+const { locale, slug } = Astro.params as { locale: Locale; slug: string };
+const { place } = Astro.props;
 const { data } = place;
 const { Content } = await render(place);
+
+// Get the other locale for language switcher
+const otherLocale = locale === 'de' ? 'uk' : 'de';
 ---
 
 <Layout>
   <Navbar />
+  
+  <!-- Language Switcher -->
+  <div class="lang-switcher">
+    <a href={`/de/places/${slug}/`} class={`lang-btn ${locale === 'de' ? 'active' : ''}`}>DE</a>
+    <a href={`/uk/places/${slug}/`} class={`lang-btn ${locale === 'uk' ? 'active' : ''}`}>UK</a>
+  </div>
+
   <main class="place-detail">
 
     <!-- Hero with Image -->
@@ -35,7 +57,7 @@ const { Content } = await render(place);
     <div class="content-grid">
       <!-- Breadcrumbs above sidebar -->
       <nav class="breadcrumb">
-        <a href="/">Home</a>
+        <a href={`/${locale}/`}>{t(locale, 'nav.home')}</a>
         <span>→</span>
         <span class="current">{data.name}</span>
       </nav>
@@ -45,7 +67,7 @@ const { Content } = await render(place);
           <div class="detail-item">
             <span class="detail-icon">📍</span>
             <div class="detail-text">
-              <span class="detail-label">Address</span>
+              <span class="detail-label">{t(locale, 'place.address')}</span>
               <span class="detail-value">{data.address}</span>
             </div>
           </div>
@@ -53,7 +75,7 @@ const { Content } = await render(place);
           <div class="detail-item">
             <span class="detail-icon">🕐</span>
             <div class="detail-text">
-              <span class="detail-label">Hours</span>
+              <span class="detail-label">{t(locale, 'place.hours')}</span>
               <span class="detail-value">{data.hours}</span>
             </div>
           </div>
@@ -62,7 +84,7 @@ const { Content } = await render(place);
             <div class="detail-item">
               <span class="detail-icon">📞</span>
               <div class="detail-text">
-                <span class="detail-label">Phone</span>
+                <span class="detail-label">{t(locale, 'place.phone')}</span>
                 <span class="detail-value">{data.phone}</span>
               </div>
             </div>
@@ -72,7 +94,7 @@ const { Content } = await render(place);
             <div class="detail-item">
               <span class="detail-icon">💰</span>
               <div class="detail-text">
-                <span class="detail-label">Price</span>
+                <span class="detail-label">{t(locale, 'place.price')}</span>
                 <span class="detail-value">{data.priceLevel}</span>
               </div>
             </div>
@@ -82,7 +104,7 @@ const { Content } = await render(place);
             <div class="detail-item">
               <span class="detail-icon">💳</span>
               <div class="detail-text">
-                <span class="detail-label">Insurance</span>
+                <span class="detail-label">{t(locale, 'place.insurance')}</span>
                 <span class="detail-value">{data.insurance}</span>
               </div>
             </div>
@@ -102,7 +124,7 @@ const { Content } = await render(place);
         
         <!-- Tags -->
         <div class="tags-box">
-          <span class="tags-title">Tags</span>
+          <span class="tags-title">{t(locale, 'place.tags')}</span>
           <div class="tags-list">
             {data.tags.map((tag) => (
               <span class="tag">{tag}</span>
@@ -128,15 +150,45 @@ const { Content } = await render(place);
 
     <!-- Back Navigation -->
     <nav class="back-nav">
-      <a href="/">
+      <a href={`/${locale}/`}>
         <span class="back-arrow">←</span>
-        Back to all places
+        {t(locale, 'back.link')}
       </a>
     </nav>
   </main>
 </Layout>
 
 <style>
+  .lang-switcher {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+    display: flex;
+    gap: 0.25rem;
+    background: #fff;
+    border: 4px solid #000;
+    box-shadow: 4px 4px 0 #000;
+  }
+
+  .lang-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 900;
+    text-decoration: none;
+    color: #000;
+    transition: all 0.15s ease;
+  }
+
+  .lang-btn:hover {
+    background: #f5f5f5;
+  }
+
+  .lang-btn.active {
+    background: #0066CC;
+    color: #fff;
+  }
+
   .place-detail {
     max-width: 72rem;
     margin: 0 auto;
@@ -530,3 +582,4 @@ const { Content } = await render(place);
     }
   }
 </style>
+
