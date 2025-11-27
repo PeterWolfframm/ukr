@@ -6,7 +6,6 @@ backend:
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
-
 # Internationalization
 i18n:
   structure: multiple_folders
