@@ -13,7 +13,30 @@ const { locale } = Astro.params as { locale: Locale };
 
 // Fetch places for the current locale
 const allPlaces = await getCollection('places');
-const places = allPlaces.filter(place => place.id.startsWith(`${locale}/`));
+
+// Order places by when they were added (oldest first)
+const placeOrder = [
+  'himars-kitchen',
+  'odessa-restaurant',
+  'feuervogel',
+  'das-essen-fm',
+  'chernomorka',
+  'elviras',
+  'beisl-hauptbahnhof',
+  'markt-44a',
+  'ukrainische-gemeinde-wien',
+];
+
+const places = allPlaces
+  .filter(place => place.id.startsWith(`${locale}/`))
+  .sort((a, b) => {
+    const slugA = a.id.replace(`${locale}/`, '');
+    const slugB = b.id.replace(`${locale}/`, '');
+    const indexA = placeOrder.indexOf(slugA);
+    const indexB = placeOrder.indexOf(slugB);
+    // If not in the order list, put at the end
+    return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+  });
 
 // Get the other locale for language switcher
 const otherLocale = locale === 'de' ? 'uk' : 'de';
