@@ -2,33 +2,21 @@
 import PoweredBy from './PoweredBy.astro';
 ---
 
-<nav class="navbar">
+<nav class="neo-navbar justify-center!">
   <a href={import.meta.env.BASE_URL} class="navbar-brand">
     <span class="brand-text">ukrainian</span>
+    <span class="brand-powered-wrapper">
+      <PoweredBy layout="header" />
+    </span>
     <span class="brand-text-accent">places</span>
   </a>
-  <PoweredBy layout="header" />
 </nav>
 
 <style>
-  .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 2rem;
-    background: var(--background);
-    border-bottom: 4px solid #000;
-  }
-
-  .navbar :global(.powered-by--header) {
-    margin-top: 0;
-    margin-right: 10vw;
-  }
-
   .navbar-brand {
     display: flex;
-    align-items: baseline;
-    gap: 0.4rem;
+    align-items: center;
+    gap: 0.5rem;
     text-decoration: none;
     border: none;
     box-shadow: none;
@@ -38,6 +26,15 @@ import PoweredBy from './PoweredBy.astro';
   .navbar-brand:hover {
     background: none;
     opacity: 0.8;
+  }
+
+  .brand-powered-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .brand-powered-wrapper :global(.powered-by--header) {
+    margin-top: 0;
   }
 
   .brand-text {
@@ -58,8 +55,8 @@ import PoweredBy from './PoweredBy.astro';
     left: 0;
     top: 0;
     color: transparent;
-    -webkit-text-stroke: 2px #0066CC;
-    text-stroke: 2px #0066CC;
+    -webkit-text-stroke: 2px var(--ua-blue);
+    text-stroke: 2px var(--ua-blue);
     z-index: -1;
     transform: translate(2px, 2px);
     pointer-events: none;
@@ -74,27 +71,16 @@ import PoweredBy from './PoweredBy.astro';
     color: #000;
   }
 
-  /* Tablet */
   @media (max-width: 768px) {
-    .navbar {
-      padding: 0.875rem 1.25rem;
-    }
-
-    .navbar :global(.powered-by--header) {
-      margin-right: 0;
-    }
-
     .brand-text,
     .brand-text-accent {
       font-size: 1.25rem;
     }
   }
 
-  /* Mobile */
   @media (max-width: 640px) {
-    .navbar {
-      padding: 0.75rem 1rem;
-      gap: 0.5rem;
+    .navbar-brand {
+      gap: 0.35rem;
     }
 
     .brand-text,
@@ -108,34 +94,32 @@ import PoweredBy from './PoweredBy.astro';
     }
 
     .brand-text::after {
-      -webkit-text-stroke: 1.5px #0066CC;
-      text-stroke: 1.5px #0066CC;
+      -webkit-text-stroke: 1.5px var(--ua-blue);
+      text-stroke: 1.5px var(--ua-blue);
       transform: translate(1px, 1px);
     }
 
-    .navbar :global(.powered-by--header .powered-by__text) {
+    .brand-powered-wrapper :global(.powered-by--header .powered-by__text) {
       display: none;
     }
 
-    .navbar :global(.powered-by--header .powered-by__logo) {
-      height: 32px;
+    .brand-powered-wrapper :global(.powered-by--header .powered-by__logo) {
+      height: 28px;
     }
   }
 
-  /* Extra small mobile */
   @media (max-width: 380px) {
-    .navbar {
-      padding: 0.625rem 0.75rem;
+    .navbar-brand {
+      gap: 0.25rem;
     }
 
     .brand-text,
     .brand-text-accent {
       font-size: 0.875rem;
-      gap: 0.25rem;
     }
 
-    .navbar :global(.powered-by--header .powered-by__logo) {
-      height: 28px;
+    .brand-powered-wrapper :global(.powered-by--header .powered-by__logo) {
+      height: 24px;
     }
   }
 </style>

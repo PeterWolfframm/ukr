@@ -1,16 +1,20 @@
 ---
 import '../styles/global.css';
+import PoweredBy from '../components/PoweredBy.astro';
+import { type Locale, defaultLocale, t } from '../i18n/utils';
 
 interface Props {
 	title?: string;
 	description?: string;
 	image?: string;
+	locale?: Locale;
 }
 
 const { 
 	title = "Ukrainian Places 🍽️🇺🇦 – Discover Ukrainian Restaurants & Communities",
 	description = "🍲🥟🍞 Discover authentic Ukrainian restaurants, cafés, and communities in Vienna and beyond. Find your taste of Ukraine – from traditional borscht to modern varenyky!",
-	image = "/himars.jpg"
+	image = "/himars.jpg",
+	locale = defaultLocale
 } = Astro.props;
 
 const siteUrl = "https://ukrainian-places.mypaperwork.co";
@@ -53,6 +57,19 @@ const fullImageUrl = `${siteUrl}${image}`;
 	</head>
 	<body>
 		<slot />
+		<!-- Footer -->
+		<footer class="site-footer">
+			<div class="footer-content">
+				<div class="footer-brand">
+					<PoweredBy layout="footer" />
+				</div>
+				<div class="footer-center">
+					<span class="slava-text">{t(locale, 'footer.slava')}</span>
+				</div>
+				<nav class="footer-nav">
+				</nav>
+			</div>
+		</footer>
 	</body>
 </html>
 <style is:global>
@@ -67,5 +84,99 @@ const fullImageUrl = `${siteUrl}${image}`;
 
 	h1, h2, h3, h4, h5, h6 {
 		font-family: 'Bricolage Grotesque', 'Manrope', system-ui, sans-serif;
+	}
+</style>
+
+<style>
+	/* Footer */
+	.site-footer {
+		border-top: 6px solid #000;
+		padding: 4rem 2rem;
+		background: #fff;
+		color: #000;
+	}
+
+	.footer-content {
+		max-width: 72rem;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 1.5rem;
+	}
+
+	.footer-brand {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		text-decoration: none;
+		transition: opacity 0.2s ease;
+		border: none;
+		box-shadow: none;
+	}
+	
+	.footer-brand:hover {
+		background: transparent;
+		box-shadow: none;
+	}
+
+	.footer-center {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-left: auto;
+	}
+
+	.slava-text {
+		font-size: clamp(2.5rem, 5vw, 4rem);
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		background: linear-gradient(180deg, #0066CC 50%, #FFD700 50%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.footer-nav {
+		display: flex;
+		gap: 2rem;
+	}
+
+	.footer-nav a {
+		color: #000;
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		border: none;
+		box-shadow: none;
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+
+	.footer-nav a:hover {
+		color: #0066CC;
+		background: transparent;
+	}
+
+	@media (max-width: 640px) {
+		.footer-nav {
+			gap: 1.5rem;
+		}
+
+		.footer-content {
+			flex-direction: column;
+			text-align: center;
+		}
+
+		.footer-center {
+			margin-left: 0;
+		}
+
+		.slava-text {
+			font-size: 2rem;
+		}
 	}
 </style>

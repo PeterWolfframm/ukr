@@ -59,7 +59,7 @@
   --main: oklch(67.56% 0.1796 49.61);
   --border: oklch(0% 0 0);
   --ring: oklch(100% 0 0);
-  --shadow: 2px 2px 0px 0px var(--border);
+  --shadow: 2px 2px 0px 0px var(--borderm);
   --chart-1: #EB6D00;
   --chart-2: #0066CC;
   --chart-3: #ffeb80;
@@ -104,11 +104,12 @@
 
 @layer base {
   body {
-    @apply text-foreground font-base bg-background;
+    color: var(--foreground);
+    background: var(--background);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
+    font-weight: 900;
   }
 
   /* Default heading styles */
@@ -170,7 +171,9 @@
   }
 
   p {
-    @apply text-lg leading-relaxed mb-4;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
   }
 
   /* Default link styles with underline effect */
@@ -183,18 +186,6 @@
 
   a:hover {
     background: var(--ua-blue);
-  }
-
-  /* Neo-card decorative border */
-  .neo-card::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
-    border: 6px solid var(--ua-blue);
-    pointer-events: none;
   }
 
   /* ==========================================================================
@@ -424,6 +415,8 @@
   .neo-border-b-lg { border-bottom: var(--neo-border-lg) solid var(--neo-border-color); }
   .neo-border-b-xl { border-bottom: var(--neo-border-xl) solid var(--neo-border-color); }
   .neo-border-r-lg { border-right: var(--neo-border-lg) solid var(--neo-border-color); }
+  .neo-border-t { border-top: var(--neo-border-md) solid var(--neo-border-color); }
+  .neo-border-t-lg { border-top: var(--neo-border-lg) solid var(--neo-border-color); }
 
   /* Shadow utilities */
   .neo-shadow-xs { box-shadow: var(--neo-shadow-xs); }
@@ -436,11 +429,16 @@
 
   /* Typography utilities */
   .neo-heading {
-    @apply font-black uppercase tracking-tight;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
   }
 
   .neo-label {
-    @apply text-xs font-extrabold uppercase tracking-widest;
+    font-size: 0.75rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
   .neo-text-stroke {
@@ -496,12 +494,19 @@
      Buttons
      ------------------------------------ */
   .neo-btn {
-    @apply inline-flex items-center justify-center gap-2;
-    @apply font-extrabold uppercase tracking-wide;
-    @apply transition-all duration-150 ease-out cursor-pointer;
-    @apply neo-border neo-shadow-lg;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     padding: 0.75rem 1.25rem;
     font-size: 0.85rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: var(--neo-border-md) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-lg);
+    transition: all 0.15s ease-out;
+    cursor: pointer;
   }
 
   .neo-btn:hover {
@@ -510,7 +515,8 @@
   }
 
   .neo-btn:disabled {
-    @apply opacity-40 cursor-not-allowed;
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 
   .neo-btn:disabled:hover {
@@ -520,27 +526,31 @@
 
   /* Button variants */
   .neo-btn-primary {
-    @apply neo-btn bg-ua-blue text-white;
+    background: var(--ua-blue);
+    color: white;
   }
 
   .neo-btn-primary:hover:not(:disabled) {
-    @apply bg-ua-blue-dark;
+    background: var(--ua-blue-dark);
   }
 
   .neo-btn-secondary {
-    @apply neo-btn bg-white text-black;
+    background: white;
+    color: black;
   }
 
   .neo-btn-secondary:hover:not(:disabled) {
-    @apply bg-gray-100;
+    background: #f5f5f5;
   }
 
   .neo-btn-ghost {
-    @apply neo-btn bg-transparent border-0 shadow-none;
+    background: transparent;
+    border: none;
+    box-shadow: none;
   }
 
   .neo-btn-ghost:hover {
-    @apply bg-gray-100;
+    background: #f5f5f5;
     transform: none;
     box-shadow: none;
   }
@@ -558,7 +568,8 @@
 
   /* Active/pressed state for toggles */
   .neo-btn-active {
-    @apply bg-ua-blue text-white;
+    background: var(--ua-blue);
+    color: white;
     transform: translate(2px, 2px);
     box-shadow: var(--neo-shadow-xs);
   }
@@ -567,8 +578,11 @@
      Cards
      ------------------------------------ */
   .neo-card {
-    @apply bg-white neo-border-xl neo-shadow-2xl overflow-hidden;
-    @apply transition-all duration-200 ease-out;
+    background: white;
+    border: var(--neo-border-xl) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-2xl);
+    overflow: hidden;
+    transition: all 0.2s ease-out;
   }
 
   .neo-card-hover:hover {
@@ -577,100 +591,139 @@
   }
 
   .neo-card-sm {
-    @apply bg-white neo-border neo-shadow-lg overflow-hidden;
+    background: white;
+    border: var(--neo-border-md) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-lg);
+    overflow: hidden;
   }
 
   .neo-card-md {
-    @apply bg-white neo-border-lg neo-shadow-xl overflow-hidden;
+    background: white;
+    border: var(--neo-border-lg) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-xl);
+    overflow: hidden;
   }
 
   /* ------------------------------------
      Badges & Tags
      ------------------------------------ */
   .neo-badge {
-    @apply inline-block px-3 py-1.5;
-    @apply text-xs font-extrabold uppercase tracking-wide;
-    @apply neo-border neo-shadow-lg;
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.65rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: var(--neo-border-md) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-lg);
   }
 
   .neo-badge-primary {
-    @apply neo-badge bg-ua-blue text-white;
+    background: var(--ua-blue);
+    color: white;
   }
 
   .neo-badge-secondary {
-    @apply neo-badge bg-ua-yellow-light text-black;
+    background: var(--ua-yellow-light);
+    color: black;
   }
 
   .neo-tag {
-    @apply inline-block px-3 py-1;
-    @apply text-xs font-bold uppercase tracking-wide;
-    @apply bg-black text-white;
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: black;
+    color: white;
   }
 
   .neo-tag:nth-child(2) {
-    @apply bg-ua-blue;
+    background: var(--ua-blue);
   }
 
   .neo-tag:nth-child(3) {
-    @apply bg-ua-yellow-light text-black;
+    background: var(--ua-yellow-light);
+    color: black;
   }
 
   /* ------------------------------------
      Language Switcher
      ------------------------------------ */
   .neo-lang-switcher {
-    @apply fixed top-4 right-4 z-50;
-    @apply flex gap-0.5;
-    @apply bg-white neo-border neo-shadow-lg;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 50;
+    display: flex;
+    gap: 0.25rem;
+    background: white;
+    border: var(--neo-border-md) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-lg);
   }
 
   .neo-lang-btn {
-    @apply px-3 py-2;
-    @apply text-xs font-black;
-    @apply transition-all duration-150;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 900;
+    transition: all 0.15s;
   }
 
   .neo-lang-btn:hover {
-    @apply bg-gray-100;
+    background: #f5f5f5;
   }
 
   .neo-lang-btn.active {
-    @apply bg-ua-blue text-white;
+    background: var(--ua-blue);
+    color: white;
   }
 
   /* ------------------------------------
      Navbar
      ------------------------------------ */
   .neo-navbar {
-    @apply flex items-center justify-between;
-    @apply px-8 py-4;
-    @apply bg-background neo-border-b;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: var(--background);
+    border-bottom: var(--neo-border-md) solid var(--neo-border-color);
   }
 
   .neo-navbar-brand {
-    @apply flex items-baseline gap-1.5;
-    @apply transition-opacity duration-150;
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    transition: opacity 0.15s;
   }
 
   .neo-navbar-brand:hover {
-    @apply opacity-80;
+    opacity: 0.8;
   }
 
   /* ------------------------------------
      Hero Section
      ------------------------------------ */
   .neo-hero {
-    @apply relative overflow-hidden neo-border-b-xl;
-    @apply px-8 py-16 pb-24;
+    position: relative;
+    overflow: hidden;
+    border-bottom: var(--neo-border-xl) solid var(--neo-border-color);
+    padding: 4rem 2rem 6rem;
     background: 
       linear-gradient(135deg, transparent 0%, transparent 50%, rgba(0, 102, 204, 0.08) 50%, rgba(0, 102, 204, 0.08) 100%),
       var(--background);
   }
 
   .neo-hero-title {
-    @apply neo-heading leading-none m-0 p-0 border-0;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    line-height: 0.9;
+    margin: 0;
+    padding: 0;
+    border: none;
     font-size: clamp(3.5rem, 12vw, 8rem);
-    letter-spacing: -0.02em;
   }
 
   .neo-hero-title::after {
@@ -681,49 +734,115 @@
      Filter Bar
      ------------------------------------ */
   .neo-filter-bar {
-    @apply flex flex-wrap gap-3;
-    @apply py-8 neo-border-b;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 2rem 0;
+    border-bottom: var(--neo-border-md) solid var(--neo-border-color);
   }
 
   .neo-filter-btn {
-    @apply neo-btn-secondary neo-btn-sm;
-    @apply flex items-center gap-2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: var(--neo-border-md) solid var(--neo-border-color);
+    background: white;
+    box-shadow: var(--neo-shadow-lg);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .neo-filter-btn:hover {
+    transform: translate(1px, 1px);
+    box-shadow: var(--neo-shadow-md);
+    background: #f5f5f5;
   }
 
   .neo-filter-btn.active {
-    @apply neo-btn-active;
+    background: var(--ua-blue);
+    color: white;
+    transform: translate(2px, 2px);
+    box-shadow: var(--neo-shadow-xs);
   }
 
   /* ------------------------------------
      Place Card (listing)
      ------------------------------------ */
   .neo-place-card {
-    @apply neo-card neo-card-hover;
-    @apply grid grid-cols-1 md:grid-cols-[350px_1fr];
-    @apply cursor-pointer;
+    display: grid;
+    grid-template-columns: 1fr;
+    background: white;
+    border: var(--neo-border-xl) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-2xl);
+    overflow: hidden;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  @media (min-width: 768px) {
+    .neo-place-card {
+      grid-template-columns: 350px 1fr;
+    }
+  }
+
+  .neo-place-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--neo-shadow-3xl);
   }
 
   .neo-place-card.hidden {
-    @apply hidden;
+    display: none;
   }
 
   .neo-place-image {
-    @apply relative h-72 md:h-auto md:min-h-full overflow-hidden;
-    @apply neo-border-b-lg md:border-b-0 md:neo-border-r-lg;
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+    border-bottom: var(--neo-border-lg) solid var(--neo-border-color);
+  }
+
+  @media (min-width: 768px) {
+    .neo-place-image {
+      height: auto;
+      min-height: 100%;
+      border-bottom: none;
+      border-right: var(--neo-border-lg) solid var(--neo-border-color);
+    }
   }
 
   .neo-place-content {
-    @apply p-8 flex flex-col gap-5;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
   }
 
   .neo-place-name {
-    @apply neo-heading text-3xl m-0 p-0 border-0 relative inline-block;
+    font-size: 1.75rem;
+    font-weight: 900;
+    text-transform: uppercase;
     line-height: 1.1;
+    margin: 0;
+    padding: 0;
+    border: none;
+    position: relative;
+    display: inline-block;
   }
 
   .neo-place-name::after {
     content: '';
-    @apply absolute bottom-[-4px] left-0 w-full h-1.5;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 6px;
     background: linear-gradient(90deg, var(--ua-blue) 0%, var(--ua-yellow-light) 100%);
   }
 
@@ -731,33 +850,91 @@
      Pagination
      ------------------------------------ */
   .neo-pagination {
-    @apply flex items-center justify-center gap-6 flex-wrap;
-    @apply mt-12 pt-8 neo-border-t;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: var(--neo-border-md) solid var(--neo-border-color);
+  }
+
+  .neo-pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: var(--neo-border-md) solid var(--neo-border-color);
+    background: white;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: var(--neo-shadow-lg);
+  }
+
+  .neo-pagination-btn:hover:not(:disabled) {
+    transform: translate(1px, 1px);
+    box-shadow: var(--neo-shadow-md);
+    background: var(--ua-blue);
+    color: white;
+  }
+
+  .neo-pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 
   .neo-pagination-info {
-    @apply flex items-center gap-2;
-    @apply px-5 py-3;
-    @apply bg-ua-yellow-light neo-border;
-    @apply font-extrabold uppercase text-sm;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--ua-yellow-light);
+    border: var(--neo-border-md) solid var(--neo-border-color);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.85rem;
   }
 
   .neo-pagination-current {
-    @apply text-lg text-ua-blue;
+    font-size: 1.1rem;
+    color: var(--ua-blue);
   }
 
   /* ------------------------------------
      Submit Card
      ------------------------------------ */
   .neo-submit-card {
-    @apply neo-card mt-12;
-    @apply grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-8;
-    @apply p-8 md:p-12 items-center;
+    position: relative;
+    margin-top: 3rem;
+    padding: 3rem;
+    background: white;
+    border: var(--neo-border-xl) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-2xl);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .neo-submit-card {
+      grid-template-columns: 1fr;
+      padding: 2rem;
+      text-align: center;
+    }
   }
 
   .neo-submit-card .deco-plus {
-    @apply text-7xl font-black leading-none absolute;
+    font-size: 6rem;
+    font-weight: 900;
+    line-height: 1;
     color: var(--ua-blue);
+    position: absolute;
   }
 
   .neo-submit-card .deco-plus.secondary {
@@ -770,23 +947,33 @@
      Footer
      ------------------------------------ */
   .neo-footer {
-    @apply neo-border-t-lg;
-    @apply px-8 py-16;
-    @apply bg-white text-black;
+    border-top: var(--neo-border-lg) solid var(--neo-border-color);
+    padding: 4rem 2rem;
+    background: white;
+    color: black;
   }
 
   .neo-footer-content {
-    @apply max-w-6xl mx-auto;
-    @apply flex justify-between items-center flex-wrap gap-6;
+    max-width: 72rem;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
   }
 
   /* ------------------------------------
      Detail Page Components
      ------------------------------------ */
   .neo-hero-image {
-    @apply relative my-8 h-80 overflow-hidden;
-    @apply neo-border-lg neo-shadow-2xl;
-    @apply transition-all duration-200;
+    position: relative;
+    margin: 2rem 0 3rem;
+    height: 320px;
+    overflow: hidden;
+    border: var(--neo-border-lg) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-2xl);
+    transition: all 0.2s ease;
   }
 
   .neo-hero-image:hover {
@@ -795,8 +982,10 @@
   }
 
   .neo-hero-image img {
-    @apply w-full h-full object-cover;
-    @apply transition-transform duration-400;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
   }
 
   .neo-hero-image:hover img {
@@ -804,85 +993,175 @@
   }
 
   .neo-breadcrumb {
-    @apply flex items-center gap-2;
-    @apply neo-label mb-6;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.5rem;
     grid-column: 1 / -1;
   }
 
   .neo-breadcrumb a {
-    @apply opacity-70 transition-opacity;
+    color: black;
+    border: none;
+    box-shadow: none;
+    opacity: 0.7;
+    transition: opacity 0.15s;
   }
 
   .neo-breadcrumb a:hover {
-    @apply opacity-100;
+    background: none;
+    opacity: 1;
+  }
+
+  .neo-breadcrumb span {
+    color: #666;
   }
 
   .neo-breadcrumb .current {
-    @apply opacity-60 max-w-xs truncate;
+    opacity: 0.6;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .neo-details-card {
-    @apply bg-white neo-border neo-shadow-xl;
+    background: white;
+    border: var(--neo-border-md) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-xl);
   }
 
   .neo-detail-item {
-    @apply flex gap-4 p-4;
-    @apply border-b-2 border-gray-200;
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 2px solid #eee;
   }
 
   .neo-detail-item:last-child {
-    @apply border-b-0;
+    border-bottom: none;
   }
 
   .neo-detail-icon {
-    @apply text-xl flex-shrink-0 w-7 text-center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    width: 1.75rem;
+    text-align: center;
   }
 
   .neo-detail-label {
-    @apply neo-label text-gray-500;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #666;
   }
 
   .neo-detail-value {
-    @apply text-base font-semibold leading-tight;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .neo-cta-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
+    border: var(--neo-border-md) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-lg);
+    transition: all 0.15s ease;
+    text-decoration: none;
+    background: var(--ua-blue);
+    color: white;
+    width: fit-content;
+  }
+
+  .neo-cta-primary:hover {
+    transform: translate(2px, 2px);
+    box-shadow: var(--neo-shadow-sm);
+    background: var(--ua-blue-dark);
   }
 
   .neo-tags-box {
-    @apply p-5 bg-gray-100 neo-border-sm;
+    padding: 1.25rem;
+    background: #f8f8f8;
+    border: var(--neo-border-sm) solid var(--neo-border-color);
   }
 
   .neo-tags-title {
-    @apply neo-label text-gray-500 mb-3 block;
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #666;
+    margin-bottom: 0.75rem;
   }
 
   .neo-tag-list {
-    @apply flex flex-wrap gap-2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   .neo-tag-item {
-    @apply px-3 py-1.5;
-    @apply bg-white neo-border-xs;
-    @apply text-xs font-bold uppercase tracking-wide;
+    padding: 0.35rem 0.7rem;
+    background: white;
+    border: 2px solid var(--neo-border-color);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
   .neo-back-nav {
-    @apply mt-16 pt-8 neo-border-t;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: var(--neo-border-md) solid var(--neo-border-color);
   }
 
   .neo-back-link {
-    @apply inline-flex items-center gap-2;
-    @apply text-sm font-bold uppercase tracking-wide;
-    @apply transition-all duration-200;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: black;
+    border: none;
+    box-shadow: none;
+    transition: gap 0.2s ease;
+    text-decoration: none;
   }
 
   .neo-back-link:hover {
+    background: none;
     gap: 0.75rem;
   }
 
   .neo-back-arrow {
-    @apply inline-flex items-center justify-center;
-    @apply w-8 h-8 bg-ua-blue text-white text-base;
-    @apply neo-border-sm;
-    @apply transition-transform duration-200;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: var(--ua-blue);
+    color: white;
+    font-size: 1rem;
+    border: 3px solid var(--neo-border-color);
+    transition: transform 0.2s ease;
   }
 
   .neo-back-link:hover .neo-back-arrow {
@@ -893,341 +1172,128 @@
      MyPaperwork Card
      ------------------------------------ */
   .neo-promo-card {
-    @apply neo-card mt-12 relative overflow-hidden;
+    position: relative;
+    margin-top: 3rem;
+    background: white;
+    border: var(--neo-border-xl) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-2xl);
+    overflow: hidden;
   }
 
   .neo-promo-card .card-pattern {
-    @apply absolute inset-0 pointer-events-none;
+    position: absolute;
+    inset: 0;
     background: 
       radial-gradient(circle at 100% 0%, rgba(0, 107, 105, 0.08) 0%, transparent 50%),
       radial-gradient(circle at 0% 100%, rgba(0, 107, 105, 0.05) 0%, transparent 40%);
+    pointer-events: none;
   }
 
   .neo-promo-content {
-    @apply relative grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 md:gap-12 p-8 md:p-12 items-center;
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3rem;
+    padding: 3rem;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .neo-promo-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      text-align: center;
+    }
   }
 
   .neo-promo-logo {
-    @apply relative p-6 px-8 bg-white;
+    position: relative;
+    padding: 1.5rem 2rem;
+    background: white;
     border: 4px solid #006B69;
     box-shadow: 6px 6px 0 rgba(0, 107, 105, 0.3);
   }
 
   .neo-promo-logo::before {
     content: '';
-    @apply absolute -inset-3;
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
     border: 4px dashed #006B69;
     opacity: 0.3;
     pointer-events: none;
   }
 
   .neo-promo-eyebrow {
-    @apply inline-block px-3 py-1.5;
-    @apply text-xs font-black tracking-widest;
-    @apply bg-[#006B69] text-white;
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    background: #006B69;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
     width: fit-content;
   }
 
   .neo-promo-title {
-    @apply text-3xl font-black m-0 p-0 border-0 leading-tight;
+    font-size: 2rem;
+    font-weight: 900;
     text-transform: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    line-height: 1.15;
+    color: black;
   }
 
   .neo-promo-title::after {
     display: none;
   }
 
+  .neo-promo-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+    margin: 0;
+    max-width: 520px;
+  }
+
   .neo-promo-cta {
-    @apply neo-btn-lg;
-    @apply bg-[#006B69] text-white neo-border neo-shadow-lg;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.75rem;
+    background: #006B69;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 4px solid black;
+    box-shadow: 4px 4px 0 black;
+    transition: all 0.15s ease;
+    text-decoration: none;
     width: fit-content;
   }
 
   .neo-promo-cta:hover {
     transform: translate(2px, 2px);
-    box-shadow: var(--neo-shadow-sm);
+    box-shadow: 2px 2px 0 black;
     background: #005654;
   }
 
   .neo-promo-bar {
-    @apply h-3;
-    background: linear-gradient(90deg, #006B69 0%, #006B69 60%, #000 60%, #000 100%);
+    height: 12px;
+    background: linear-gradient(90deg, #006B69 0%, #006B69 60%, black 60%, black 100%);
   }
 
   /* ------------------------------------
      Powered By Component
      ------------------------------------ */
-  .neo-powered-by {
-    @apply flex items-center gap-2.5;
-    @apply transition-opacity duration-150;
-  }
-
-  .neo-powered-by:hover {
-    @apply opacity-75;
-  }
-
-  .neo-powered-by-text {
-    @apply text-lg font-semibold text-gray-500 tracking-wide whitespace-nowrap;
-  }
-
-  .neo-powered-by-logo {
-    @apply h-10 w-auto flex-shrink-0;
-  }
-
-  .neo-powered-by--header {
-    @apply mt-6;
-  }
-
-  .neo-powered-by--header .neo-powered-by-text {
-    @apply text-base;
-  }
-
-  .neo-powered-by--header .neo-powered-by-logo {
-    @apply h-9;
-  }
-
-  .neo-powered-by--footer .neo-powered-by-text {
-    @apply text-xl lowercase;
-  }
-
-  .neo-powered-by--footer .neo-powered-by-logo {
-    @apply h-16;
-  }
-
-  /* ------------------------------------
-     Restaurant/Org Placeholders
-     ------------------------------------ */
-  .neo-placeholder {
-    @apply w-full h-full flex items-center justify-center relative;
-  }
-
-  .neo-placeholder-org {
-    background: linear-gradient(135deg, var(--ua-blue) 0%, var(--ua-blue-dark) 100%);
-  }
-
-  .neo-placeholder-restaurant-0 {
-    background: linear-gradient(135deg, #0057B7 0%, #004a99 100%);
-  }
-
-  .neo-placeholder-restaurant-1 {
-    background: linear-gradient(135deg, #0066CC 0%, #0052a3 100%);
-  }
-
-  .neo-placeholder-restaurant-2 {
-    background: linear-gradient(135deg, #004a99 0%, #003d7a 100%);
-  }
-
-  .neo-emoji-group {
-    @apply flex items-center justify-center gap-4 z-10;
-  }
-
-  .neo-emoji {
-    @apply text-5xl inline-block;
-    animation: neo-float 3s ease-in-out infinite;
-  }
-
-  .neo-emoji:nth-child(1) { animation-delay: 0s; }
-  .neo-emoji:nth-child(2) { animation-delay: 0.5s; }
-  .neo-emoji:nth-child(3) { animation-delay: 1s; }
-
-  @keyframes neo-float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-
-  /* ------------------------------------
-     Ukrainian Flag Element
-     ------------------------------------ */
-  .neo-ua-flag {
-    @apply flex neo-border overflow-hidden;
-  }
-
-  .neo-ua-flag-vertical {
-    @apply flex-col w-16 min-h-32;
-  }
-
-  .neo-ua-flag-horizontal {
-    @apply flex-row w-full h-5;
-  }
-
-  .neo-ua-flag-stripe {
-    @apply flex-1;
-  }
-
-  .neo-ua-flag-blue {
-    @apply bg-ua-blue;
-  }
-
-  .neo-ua-flag-yellow {
-    @apply bg-ua-yellow;
-  }
-
-  /* ------------------------------------
-     Map Embed
-     ------------------------------------ */
-  .neo-map-embed {
-    @apply mt-12 pt-8 neo-border-t;
-  }
-
-  .neo-map-embed iframe {
-    @apply w-full h-96 md:h-[400px];
-    @apply neo-border neo-shadow-xl;
-  }
-}
-
-/* ==========================================================================
-   Prose Styles (for markdown content)
-   ========================================================================== */
-
-@layer components {
-  .neo-prose {
-    @apply text-lg leading-relaxed;
-  }
-
-  .neo-prose p {
-    @apply mb-5 text-gray-800;
-  }
-
-  .neo-prose h2 {
-    @apply neo-heading text-2xl mt-10 mb-4 pb-2 neo-border-b;
-  }
-
-  .neo-prose h2::after {
-    display: none;
-  }
-
-  .neo-prose h3 {
-    @apply neo-heading text-xl mt-8 mb-3;
-  }
-
-  .neo-prose h4, .neo-prose h5, .neo-prose h6 {
-    @apply neo-heading mt-6 mb-2;
-  }
-
-  .neo-prose ul, .neo-prose ol {
-    @apply my-6 pl-0;
-  }
-
-  .neo-prose ul {
-    @apply list-none;
-  }
-
-  .neo-prose ul li {
-    @apply relative mb-3 pl-6;
-  }
-
-  .neo-prose ul li::before {
-    content: '■';
-    @apply absolute left-0 text-ua-blue text-xs;
-    top: 0.35rem;
-  }
-
-  .neo-prose ol {
-    @apply list-none;
-    counter-reset: item;
-  }
-
-  .neo-prose ol li {
-    @apply relative mb-3 pl-8;
-    counter-increment: item;
-  }
-
-  .neo-prose ol li::before {
-    content: counter(item);
-    @apply absolute left-0 top-0;
-    @apply font-black text-sm;
-    @apply bg-main text-main-foreground;
-    @apply w-6 h-6 flex items-center justify-center;
-    @apply neo-border-xs;
-  }
-
-  .neo-prose blockquote {
-    @apply relative my-8 p-6 pl-8;
-    @apply bg-secondary-background neo-border;
-    border-left: 8px solid var(--main);
-    box-shadow: var(--neo-shadow-sm);
-    @apply italic text-lg;
-  }
-
-  .neo-prose blockquote::before {
-    content: '"';
-    @apply absolute font-black text-main leading-none;
-    top: -0.5rem;
-    left: 0.75rem;
-    font-size: 4rem;
-    font-style: normal;
-    opacity: 0.5;
-  }
-
-  .neo-prose blockquote p {
-    @apply mb-0 relative z-10;
-  }
-
-  .neo-prose pre {
-    @apply my-6 p-5;
-    @apply bg-secondary-background neo-border neo-shadow-sm;
-    @apply overflow-x-auto;
-    @apply font-mono text-sm leading-relaxed;
-  }
-
-  .neo-prose code {
-    @apply font-mono text-sm font-semibold;
-    @apply bg-secondary-background px-1.5 py-0.5 neo-border-xs;
-  }
-
-  .neo-prose pre code {
-    @apply bg-transparent p-0 border-0 font-normal;
-  }
-
-  .neo-prose table {
-    @apply w-full my-6 border-collapse;
-    @apply neo-border neo-shadow-sm;
-  }
-
-  .neo-prose th, .neo-prose td {
-    @apply p-3 text-left neo-border-xs;
-  }
-
-  .neo-prose th {
-    @apply bg-main text-main-foreground;
-    @apply font-black uppercase text-sm tracking-wide;
-  }
-
-  .neo-prose tr:nth-child(even) {
-    @apply bg-secondary-background;
-  }
-
-  .neo-prose hr {
-    @apply my-10 border-0 h-1.5 bg-border relative;
-  }
-
-  .neo-prose hr::after {
-    content: '';
-    @apply absolute left-0 top-0 w-20 h-1.5 bg-main;
-  }
-
-  .neo-prose strong {
-    @apply font-extrabold;
-  }
-
-  .neo-prose a {
-    @apply font-semibold;
-    border-bottom: 3px solid #000;
-    box-shadow: inset 0 -0.35rem 0 0 var(--ua-blue);
-  }
-
-  .neo-prose a:hover {
-    @apply bg-ua-blue;
-  }
-}
-
-/* ==========================================================================
-   Legacy Component Styles (for backward compatibility)
-   These support the existing component markup until migrated to neo-* classes
-   ========================================================================== */
-
-@layer components {
-  /* PoweredBy Component - legacy class names */
   .powered-by {
     display: flex;
     align-items: center;
@@ -1296,26 +1362,109 @@
     height: 64px;
   }
 
-  /* Mobile adjustments for powered-by */
-  @media (max-width: 640px) {
-    .powered-by {
-      gap: 0.5rem;
-    }
+  /* ------------------------------------
+     Restaurant/Org Placeholders
+     ------------------------------------ */
+  .neo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
 
-    .powered-by__text {
-      font-size: 0.9rem;
-    }
+  .neo-placeholder-org {
+    background: linear-gradient(135deg, var(--ua-blue) 0%, var(--ua-blue-dark) 100%);
+  }
 
-    .powered-by__logo {
-      height: 32px;
-    }
+  .neo-placeholder-restaurant-0 {
+    background: linear-gradient(135deg, #0057B7 0%, #004a99 100%);
+  }
 
-    .powered-by--footer .powered-by__text {
-      font-size: 1.1rem;
-    }
+  .neo-placeholder-restaurant-1 {
+    background: linear-gradient(135deg, #0066CC 0%, #0052a3 100%);
+  }
 
-    .powered-by--footer .powered-by__logo {
-      height: 48px;
+  .neo-placeholder-restaurant-2 {
+    background: linear-gradient(135deg, #004a99 0%, #003d7a 100%);
+  }
+
+  .neo-emoji-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 10;
+  }
+
+  .neo-emoji {
+    font-size: 4rem;
+    display: inline-block;
+    animation: neo-float 3s ease-in-out infinite;
+  }
+
+  .neo-emoji:nth-child(1) { animation-delay: 0s; }
+  .neo-emoji:nth-child(2) { animation-delay: 0.5s; }
+  .neo-emoji:nth-child(3) { animation-delay: 1s; }
+
+  @keyframes neo-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* ------------------------------------
+     Ukrainian Flag Element
+     ------------------------------------ */
+  .neo-ua-flag {
+    display: flex;
+    border: var(--neo-border-md) solid var(--neo-border-color);
+    overflow: hidden;
+  }
+
+  .neo-ua-flag-vertical {
+    flex-direction: column;
+    width: 4rem;
+    min-height: 8rem;
+  }
+
+  .neo-ua-flag-horizontal {
+    flex-direction: row;
+    width: 100%;
+    height: 1.25rem;
+  }
+
+  .neo-ua-flag-stripe {
+    flex: 1;
+  }
+
+  .neo-ua-flag-blue {
+    background: var(--ua-blue);
+  }
+
+  .neo-ua-flag-yellow {
+    background: var(--ua-yellow);
+  }
+
+  /* ------------------------------------
+     Map Embed
+     ------------------------------------ */
+  .neo-map-embed {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: var(--neo-border-md) solid var(--neo-border-color);
+  }
+
+  .neo-map-embed iframe {
+    width: 100%;
+    height: 400px;
+    border: var(--neo-border-md) solid var(--neo-border-color);
+    box-shadow: var(--neo-shadow-xl);
+  }
+
+  @media (max-width: 767px) {
+    .neo-map-embed iframe {
+      height: 300px;
     }
   }
 }
@@ -1324,88 +1473,97 @@
    Responsive Adjustments
    ========================================================================== */
 
-@layer utilities {
-  @media (max-width: 768px) {
-    .neo-hero {
-      @apply px-6 py-12 pb-16;
-    }
-
-    .neo-navbar {
-      @apply px-5 py-3.5;
-    }
-
-    .neo-place-card {
-      @apply grid-cols-1;
-    }
-
-    .neo-place-image {
-      @apply h-56 border-b-[5px] border-r-0;
-    }
-
-    .neo-place-content {
-      @apply p-6;
-    }
-
-    .neo-pagination {
-      @apply gap-4;
-    }
-
-    .neo-pagination-info {
-      @apply order-first w-full justify-center;
-    }
-
-    .neo-submit-card {
-      @apply grid-cols-1 p-6 text-center;
-    }
-
-    .neo-promo-content {
-      @apply grid-cols-1 text-center;
-    }
-
-    .neo-footer-content {
-      @apply flex-col text-center;
-    }
-
-    .neo-hero-image {
-      @apply h-56 my-6;
-    }
+@media (max-width: 768px) {
+  .neo-hero {
+    padding: 3rem 1.5rem 4rem;
   }
 
-  @media (max-width: 640px) {
-    .neo-hero-title {
-      -webkit-text-stroke: 3px #000;
-      text-stroke: 3px #000;
-    }
-
-    .neo-filter-bar {
-      @apply gap-2;
-    }
-
-    .neo-filter-btn {
-      @apply px-3 py-2 text-xs;
-    }
-
-    .neo-place-name {
-      @apply text-2xl;
-    }
-
-    .neo-powered-by--footer .neo-powered-by-text {
-      @apply text-lg;
-    }
-
-    .neo-powered-by--footer .neo-powered-by-logo {
-      @apply h-12;
-    }
+  .neo-navbar {
+    padding: 0.875rem 1.25rem;
   }
 
-  @media (max-width: 380px) {
-    .neo-navbar {
-      @apply px-3 py-2.5;
-    }
+  .neo-place-card {
+    grid-template-columns: 1fr;
+  }
 
-    .neo-text-stroke {
-      -webkit-text-stroke: 1.5px #000;
-      text-stroke: 1.5px #000;
-    }
+  .neo-place-image {
+    height: 224px;
+    border-bottom: 5px solid #000;
+    border-right: none;
+  }
+
+  .neo-place-content {
+    padding: 1.5rem;
+  }
+
+  .neo-pagination {
+    gap: 1rem;
+  }
+
+  .neo-pagination-info {
+    order: -1;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .neo-submit-card {
+    grid-template-columns: 1fr;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .neo-promo-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .neo-footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .neo-hero-image {
+    height: 220px;
+    margin: 1.5rem 0 2rem;
   }
 }
+
+@media (max-width: 640px) {
+  .neo-hero-title {
+    -webkit-text-stroke: 3px #000;
+    text-stroke: 3px #000;
+  }
+
+  .neo-filter-bar {
+    gap: 0.5rem;
+  }
+
+  .neo-filter-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.7rem;
+  }
+
+  .neo-place-name {
+    font-size: 1.5rem;
+  }
+
+  .powered-by--footer .powered-by__text {
+    font-size: 1.1rem;
+  }
+
+  .powered-by--footer .powered-by__logo {
+    height: 48px;
+  }
+}
+
+@media (max-width: 380px) {
+  .neo-navbar {
+    padding: 0.625rem 0.75rem;
+  }
+
+  .neo-text-stroke {
+    -webkit-text-stroke: 1.5px #000;
+    text-stroke: 1.5px #000;
+  }
+}
+

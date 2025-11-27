@@ -33,60 +33,58 @@ const { Content } = await render(place);
 const otherLocale = locale === 'de' ? 'uk' : 'de';
 ---
 
-<Layout>
+<Layout locale={locale}>
   <Navbar />
   
   <!-- Language Switcher -->
-  <div class="lang-switcher">
-    <a href={`${import.meta.env.BASE_URL}de/places/${slug}/`} class={`lang-btn ${locale === 'de' ? 'active' : ''}`}>DE</a>
-    <a href={`${import.meta.env.BASE_URL}uk/places/${slug}/`} class={`lang-btn ${locale === 'uk' ? 'active' : ''}`}>UK</a>
+  <div class="neo-lang-switcher">
+    <a href={`${import.meta.env.BASE_URL}de/places/${slug}/`} class={`neo-lang-btn ${locale === 'de' ? 'active' : ''}`}>DE</a>
+    <a href={`${import.meta.env.BASE_URL}uk/places/${slug}/`} class={`neo-lang-btn ${locale === 'uk' ? 'active' : ''}`}>UK</a>
   </div>
 
   <main class="place-detail">
 
     <!-- Hero with Image -->
     {data.image && (
-      <div class="hero-container">
-        <div class="hero-image">
-          <img src={data.image.startsWith('http') ? data.image : `${import.meta.env.BASE_URL}${data.image.replace(/^\//, '')}`} alt={data.name} />
-        </div>
+      <div class="neo-hero-image">
+        <img src={data.image.startsWith('http') ? data.image : `${import.meta.env.BASE_URL}${data.image.replace(/^\//, '')}`} alt={data.name} />
       </div>
     )}
 
     <!-- Main Content Grid -->
     <div class="content-grid">
       <!-- Breadcrumbs above sidebar -->
-      <nav class="breadcrumb">
+      <nav class="neo-breadcrumb">
         <a href={`${import.meta.env.BASE_URL}${locale}/`}>{t(locale, 'nav.home')}</a>
         <span>→</span>
         <span class="current">{data.name}</span>
       </nav>
       <!-- Sidebar with Details -->
       <aside class="sidebar">
-        <div class="details-card">
-          <div class="detail-item">
-            <span class="detail-icon">📍</span>
+        <div class="neo-details-card">
+          <div class="neo-detail-item">
+            <span class="neo-detail-icon">📍</span>
             <div class="detail-text">
-              <span class="detail-label">{t(locale, 'place.address')}</span>
-              <span class="detail-value">{data.address}</span>
+              <span class="neo-detail-label">{t(locale, 'place.address')}</span>
+              <span class="neo-detail-value">{data.address}</span>
             </div>
           </div>
         </div>
         
         <!-- CTA Button -->
         <div class="cta-stack">
-          <a href={data.ctaPrimary.url} class="cta-primary">
+          <a href={data.ctaPrimary.url} class="neo-cta-primary">
             {data.ctaPrimary.label}
             <span class="cta-arrow">→</span>
           </a>
         </div>
         
         <!-- Tags -->
-        <div class="tags-box">
-          <span class="tags-title">{t(locale, 'place.tags')}</span>
-          <div class="tags-list">
+        <div class="neo-tags-box">
+          <span class="neo-tags-title">{t(locale, 'place.tags')}</span>
+          <div class="neo-tag-list">
             {data.tags.map((tag) => (
-              <span class="tag">{tag}</span>
+              <span class="neo-tag-item">{tag}</span>
             ))}
           </div>
         </div>
@@ -100,7 +98,7 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
         </div>
         
         {data.mapEmbed && (
-          <div class="map-embed">
+          <div class="neo-map-embed">
             <Fragment set:html={data.mapEmbed} />
           </div>
         )}
@@ -108,9 +106,9 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
     </div>
 
     <!-- Back Navigation -->
-    <nav class="back-nav">
-      <a href={`${import.meta.env.BASE_URL}${locale}/`}>
-        <span class="back-arrow">←</span>
+    <nav class="neo-back-nav">
+      <a href={`${import.meta.env.BASE_URL}${locale}/`} class="neo-back-link">
+        <span class="neo-back-arrow">←</span>
         {t(locale, 'back.link')}
       </a>
     </nav>
@@ -118,110 +116,10 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
 </Layout>
 
 <style>
-  .lang-switcher {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 100;
-    display: flex;
-    gap: 0.25rem;
-    background: #fff;
-    border: 4px solid #000;
-    box-shadow: 4px 4px 0 #000;
-  }
-
-  .lang-btn {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
-    font-weight: 900;
-    text-decoration: none;
-    color: #000;
-    transition: all 0.15s ease;
-  }
-
-  .lang-btn:hover {
-    background: #f5f5f5;
-  }
-
-  .lang-btn.active {
-    background: #0066CC;
-    color: #fff;
-  }
-
   .place-detail {
     max-width: 72rem;
     margin: 0 auto;
     padding: 0 1rem 4rem;
-  }
-
-  /* Hero Section */
-  .hero-container {
-    position: relative;
-    margin: 2rem 0 3rem;
-    height: 320px;
-    overflow: hidden;
-    border: 6px solid #000;
-    box-shadow: 8px 8px 0 #000;
-    transition: all 0.2s ease;
-  }
-
-  .hero-container:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: 12px 12px 0 #000;
-  }
-
-  .hero-image {
-    width: 100%;
-    height: 100%;
-  }
-
-  .hero-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-  }
-
-  .hero-container:hover .hero-image img {
-    transform: scale(1.02);
-  }
-
-  /* Breadcrumb */
-  .breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 1.5rem;
-    grid-column: 1 / -1;
-  }
-
-  .breadcrumb a {
-    color: #000;
-    border: none;
-    box-shadow: none;
-    opacity: 0.7;
-    transition: opacity 0.15s;
-  }
-
-  .breadcrumb a:hover {
-    background: none;
-    opacity: 1;
-  }
-
-  .breadcrumb span {
-    color: #666;
-  }
-
-  .breadcrumb .current {
-    opacity: 0.6;
-    max-width: 300px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   /* Page Title */
@@ -276,31 +174,7 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
     }
   }
 
-  /* Details Card */
-  .details-card {
-    background: #fff;
-    border: 4px solid #000;
-    box-shadow: 6px 6px 0 #000;
-  }
-
-  .detail-item {
-    display: flex;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    border-bottom: 2px solid #eee;
-  }
-
-  .detail-item:last-child {
-    border-bottom: none;
-  }
-
-  .detail-icon {
-    font-size: 1.25rem;
-    flex-shrink: 0;
-    width: 1.75rem;
-    text-align: center;
-  }
-
+  /* Detail Text */
   .detail-text {
     display: flex;
     flex-direction: column;
@@ -308,87 +182,15 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
     min-width: 0;
   }
 
-  .detail-label {
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #666;
-  }
-
-  .detail-value {
-    font-size: 0.95rem;
-    font-weight: 600;
-    line-height: 1.3;
-  }
-
-  /* CTA Button */
+  /* CTA Stack */
   .cta-stack {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
   }
 
-  .cta-primary {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 1rem 1.5rem;
-    font-size: 0.85rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    text-align: center;
-    border: 4px solid #000;
-    box-shadow: 4px 4px 0 #000;
-    transition: all 0.15s ease;
-    text-decoration: none;
-    background: #0066CC;
-    color: #fff;
-  }
-
-  .cta-primary:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 #000;
-    background: #004a99;
-  }
-
   .cta-arrow {
     font-size: 1.1rem;
-  }
-
-  /* Tags */
-  .tags-box {
-    padding: 1.25rem;
-    background: #f8f8f8;
-    border: 3px solid #000;
-  }
-
-  .tags-title {
-    display: block;
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #666;
-    margin-bottom: 0.75rem;
-  }
-
-  .tags-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .tag {
-    padding: 0.35rem 0.7rem;
-    background: #fff;
-    border: 2px solid #000;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
   }
 
   /* Main Content */
@@ -396,137 +198,17 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
     min-width: 0;
   }
 
-  .prose {
-    font-size: 1.1rem;
-    line-height: 1.75;
-  }
-
-  .prose :global(h2) {
-    font-size: 1.5rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 4px solid #000;
-  }
-
+  /* Prose - unique adjustments for this page */
   .prose :global(h2)::after {
     display: none;
   }
 
-  .prose :global(h3) {
-    font-size: 1.2rem;
-    margin-top: 1.75rem;
-    margin-bottom: 0.75rem;
-    border: none;
-    padding: 0;
-  }
-
-  .prose :global(p) {
-    margin-bottom: 1.25rem;
-    color: #333;
-  }
-
-  .prose :global(ul) {
-    margin: 1.25rem 0;
-    padding-left: 0;
-  }
-
-  .prose :global(li) {
-    margin-bottom: 0.625rem;
-    padding-left: 1.5rem;
-    position: relative;
-  }
-
   .prose :global(li)::before {
-    content: '■';
-    position: absolute;
-    left: 0;
-    color: #0066CC;
-    font-size: 0.6rem;
-    top: 0.5rem;
-  }
-
-  .prose :global(strong) {
-    font-weight: 700;
-  }
-
-  /* Map Embed */
-  .map-embed {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 4px solid #000;
-  }
-
-  .map-embed :global(iframe) {
-    width: 100%;
-    height: 400px;
-    border: 4px solid #000;
-    box-shadow: 6px 6px 0 #000;
-  }
-
-  @media (max-width: 767px) {
-    .map-embed :global(iframe) {
-      height: 300px;
-    }
-  }
-
-  /* Back Navigation */
-  .back-nav {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 4px solid #000;
-  }
-
-  .back-nav a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #000;
-    border: none;
-    box-shadow: none;
-    transition: gap 0.2s ease;
-  }
-
-  .back-nav a:hover {
-    background: none;
-    gap: 0.75rem;
-  }
-
-  .back-arrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    background: #0066CC;
-    color: #fff;
-    font-size: 1rem;
-    border: 3px solid #000;
-    transition: transform 0.2s ease;
-  }
-
-  .back-nav a:hover .back-arrow {
-    transform: translateX(-3px);
+    color: var(--ua-blue);
   }
 
   /* Mobile */
   @media (max-width: 767px) {
-    .hero-container {
-      height: 220px;
-      margin: 1.5rem 0 2rem;
-      border-width: 5px;
-      box-shadow: 6px 6px 0 #000;
-    }
-
-    .hero-container:hover {
-      transform: translate(-3px, -3px);
-      box-shadow: 9px 9px 0 #000;
-    }
-
     .page-title {
       font-size: 1.75rem;
       margin-bottom: 1.5rem;

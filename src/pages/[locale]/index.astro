@@ -54,37 +54,41 @@ function getRestaurantBlueShade(slug: string): number {
 }
 ---
 
-<Layout>
+<Layout locale={locale}>
   <div class="homepage">
     <!-- Language Switcher -->
-    <div class="lang-switcher">
-      <a href={`${import.meta.env.BASE_URL}de/`} class={`lang-btn ${locale === 'de' ? 'active' : ''}`}>DE</a>
-      <a href={`${import.meta.env.BASE_URL}uk/`} class={`lang-btn ${locale === 'uk' ? 'active' : ''}`}>UK</a>
+    <div class="neo-lang-switcher">
+      <a href={`${import.meta.env.BASE_URL}de/`} class={`neo-lang-btn ${locale === 'de' ? 'active' : ''}`}>DE</a>
+      <a href={`${import.meta.env.BASE_URL}uk/`} class={`neo-lang-btn ${locale === 'uk' ? 'active' : ''}`}>UK</a>
     </div>
 
     <!-- Hero Section -->
-    <header class="hero">
+    <header class="neo-hero">
       <div class="hero-content">
-        <h1 class="hero-title">
-          <span class="title-line accent"><span class="shadow-text" data-text={t(locale, 'hero.title.line1')}>{t(locale, 'hero.title.line1')}</span> {t(locale, 'hero.title.line2')}</span>
-        </h1>
-        <PoweredBy layout="header" />
+        <div class="hero-left">
+          <h1 class="neo-hero-title">
+            <span class="title-line accent"><span class="shadow-text" data-text={t(locale, 'hero.title.line1')}>{t(locale, 'hero.title.line1')}</span> {t(locale, 'hero.title.line2')}</span>
+          </h1>
+        </div>
+        <div class="hero-right">
+          <PoweredBy layout="header" />
+        </div>
       </div>
     </header>
 
     <main class="main-content">
       <!-- Filter Bar -->
       <section class="filter-section">
-        <div class="filter-bar">
-          <button class="filter-btn active" data-filter="all">
+        <div class="neo-filter-bar justify-center! border-none!">
+          <button class="neo-filter-btn active" data-filter="all">
             <span class="filter-icon">🌍</span>
             {t(locale, 'filter.all')}
           </button>
-          <button class="filter-btn" data-filter="restaurant">
+          <button class="neo-filter-btn" data-filter="restaurant">
             <span class="filter-icon">🍽️</span>
             {t(locale, 'filter.restaurants')}
           </button>
-          <button class="filter-btn" data-filter="organization">
+          <button class="neo-filter-btn" data-filter="organization">
             <span class="filter-icon">🤝</span>
             {t(locale, 'filter.organizations')}
           </button>
@@ -104,29 +108,29 @@ function getRestaurantBlueShade(slug: string): number {
             const blueShade = isRestaurant ? getRestaurantBlueShade(slug) : 0;
             
             return (
-              <a href={`${import.meta.env.BASE_URL}${locale}/places/${slug}/`} class="place-card" data-category={data.category}>
-                <div class={`place-image-wrapper ${isOrganization ? 'org-image' : ''} ${isRestaurant ? `restaurant-image restaurant-shade-${blueShade}` : ''}`}>
+              <a href={`${import.meta.env.BASE_URL}${locale}/places/${slug}/`} class="neo-place-card" data-category={data.category}>
+                <div class={`neo-place-image ${isOrganization ? 'neo-placeholder-org' : ''} ${isRestaurant ? `neo-placeholder-restaurant-${blueShade}` : ''}`}>
                   {isRestaurant ? (
-                    <div class="restaurant-placeholder">
-                      <div class="restaurant-emojis">
-                        {restaurantEmojis.map((emoji, idx) => (
-                          <span class="restaurant-emoji" key={idx}>{emoji}</span>
+                    <div class="neo-placeholder">
+                      <div class="neo-emoji-group">
+                        {restaurantEmojis.map((emoji) => (
+                          <span class="neo-emoji">{emoji}</span>
                         ))}
                       </div>
-                      <span class="restaurant-pattern"></span>
+                      <span class="neo-pattern-stripes absolute inset-0"></span>
                     </div>
                   ) : isOrganization ? (
-                    <div class="org-placeholder">
-                      <span class="org-icon">🇺🇦</span>
-                      <span class="org-pattern"></span>
+                    <div class="neo-placeholder">
+                      <span class="text-5xl z-10">🇺🇦</span>
+                      <span class="neo-pattern-stripes absolute inset-0"></span>
                     </div>
                   ) : null}
-                  <div class="place-badge">{data.locationBadge}</div>
+                  <div class="neo-badge neo-badge-primary absolute top-4 left-4">{data.locationBadge}</div>
                   <div class={`place-category-tag ${data.category}`}>{data.category}</div>
                 </div>
-                <div class="place-content">
+                <div class="neo-place-content">
                   <div class="place-header">
-                    <h3 class="place-name">{data.name}</h3>
+                    <h3 class="neo-place-name">{data.name}</h3>
                     {data.verified && (
                       <div class="place-rating verified">
                         <span class="verified-icon">✓</span>
@@ -142,7 +146,7 @@ function getRestaurantBlueShade(slug: string): number {
                   </div>
                   <div class="place-tags">
                     {data.tags.map((tag) => (
-                      <span class="tag">{tag}</span>
+                      <span class="neo-tag">{tag}</span>
                     ))}
                   </div>
                 </div>
@@ -152,18 +156,18 @@ function getRestaurantBlueShade(slug: string): number {
         </div>
 
         <!-- Pagination -->
-        <nav class="pagination" id="pagination" aria-label="Pagination">
-          <button class="pagination-btn prev" id="prev-btn" disabled>
+        <nav class="neo-pagination" id="pagination" aria-label="Pagination">
+          <button class="neo-pagination-btn prev" id="prev-btn" disabled>
             <span class="pagination-arrow">←</span>
             {t(locale, 'pagination.prev')}
           </button>
-          <div class="pagination-info">
+          <div class="neo-pagination-info">
             <span class="pagination-text">{t(locale, 'pagination.page')}</span>
-            <span class="pagination-current" id="current-page">1</span>
+            <span class="neo-pagination-current" id="current-page">1</span>
             <span class="pagination-text">{t(locale, 'pagination.of')}</span>
             <span class="pagination-total" id="total-pages">1</span>
           </div>
-          <button class="pagination-btn next" id="next-btn">
+          <button class="neo-pagination-btn next" id="next-btn">
             {t(locale, 'pagination.next')}
             <span class="pagination-arrow">→</span>
           </button>
@@ -173,7 +177,7 @@ function getRestaurantBlueShade(slug: string): number {
         <MyPaperworkCard locale={locale} />
 
         <!-- Submit Your Place Card -->
-        <div class="submit-card">
+        <div class="neo-submit-card">
           <div class="submit-decoration">
             <span class="deco-plus">+</span>
             <span class="deco-plus secondary">+</span>
@@ -186,104 +190,65 @@ function getRestaurantBlueShade(slug: string): number {
             <p class="submit-description">
               {t(locale, 'submit.description')}
             </p>
-            <a href="mailto:hello@mypaperwork.co?subject=Submit a Place" class="submit-button">
+            <a href="mailto:hello@mypaperwork.co?subject=Submit a Place" class="neo-btn neo-btn-primary neo-btn-lg">
               <span class="btn-icon">📮</span>
               {t(locale, 'submit.button')}
             </a>
           </div>
-          <div class="submit-flag">
-            <div class="flag-stripe blue"></div>
-            <div class="flag-stripe yellow"></div>
+          <div class="neo-ua-flag neo-ua-flag-vertical">
+            <div class="neo-ua-flag-stripe neo-ua-flag-blue"></div>
+            <div class="neo-ua-flag-stripe neo-ua-flag-yellow"></div>
           </div>
         </div>
       </section>
     </main>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-      <div class="footer-content">
-        <div class="footer-brand">
-          <PoweredBy layout="footer" />
-        </div>
-        <div class="footer-center">
-          <span class="slava-text">{t(locale, 'footer.slava')}</span>
-        </div>
-        <nav class="footer-nav">
-        </nav>
-      </div>
-    </footer>
   </div>
 </Layout>
 
 <style>
-  .lang-switcher {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 100;
-    display: flex;
-    gap: 0.25rem;
-    background: #fff;
-    border: 4px solid #000;
-    box-shadow: 4px 4px 0 #000;
-  }
-
-  .lang-btn {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
-    font-weight: 900;
-    text-decoration: none;
-    color: #000;
-    transition: all 0.15s ease;
-  }
-
-  .lang-btn:hover {
-    background: #f5f5f5;
-  }
-
-  .lang-btn.active {
-    background: #0066CC;
-    color: #fff;
-  }
-
   .homepage {
     min-height: 100vh;
     background: var(--background);
   }
 
-  /* Hero Section */
-  .hero {
-    position: relative;
-    padding: 4rem 2rem 6rem;
-    overflow: hidden;
-    border-bottom: 8px solid #000;
-    background: 
-      linear-gradient(135deg, transparent 0%, transparent 50%, rgba(0, 102, 204, 0.08) 50%, rgba(0, 102, 204, 0.08) 100%),
-      var(--background);
-  }
-
+  /* Hero Content Layout (unique to this page) */
   .hero-content {
     position: relative;
     z-index: 2;
     max-width: 72rem;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 2rem;
   }
 
-  .hero-title {
-    font-size: clamp(3.5rem, 12vw, 8rem);
-    font-weight: 900;
-    line-height: 0.9;
-    margin: 0;
-    padding: 0;
-    border: none;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
+  .hero-left {
+    flex: 1;
   }
 
-  .hero-title::after {
-    display: none;
+  .hero-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 
+  .hero-right :global(.powered-by--header) {
+    margin-top: 0;
+  }
+
+  @media (max-width: 900px) {
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .hero-right {
+      justify-content: flex-start;
+    }
+  }
+
+  /* Title Shadow Effect (unique) */
   .title-line {
     display: block;
   }
@@ -310,8 +275,8 @@ function getRestaurantBlueShade(slug: string): number {
     left: 0;
     top: 0;
     color: transparent;
-    -webkit-text-stroke: 4px #0066CC;
-    text-stroke: 4px #0066CC;
+    -webkit-text-stroke: 4px var(--ua-blue);
+    text-stroke: 4px var(--ua-blue);
     z-index: -1;
     transform: translate(4px, 4px);
     pointer-events: none;
@@ -338,42 +303,7 @@ function getRestaurantBlueShade(slug: string): number {
   /* Filter Section */
   .filter-section {
     padding: 2rem 0;
-    border-bottom: 4px solid #000;
-  }
-
-  .filter-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  .filter-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    font-size: 0.8rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border: 4px solid #000;
-    background: #fff;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    box-shadow: 3px 3px 0 #000;
-  }
-
-  .filter-btn:hover {
-    transform: translate(1px, 1px);
-    box-shadow: 2px 2px 0 #000;
-    background: #f5f5f5;
-  }
-
-  .filter-btn.active {
-    background: #0066CC;
-    color: #fff;
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 #000;
+    margin-top: 2rem;
   }
 
   .filter-icon {
@@ -391,155 +321,17 @@ function getRestaurantBlueShade(slug: string): number {
     grid-template-columns: 1fr;
   }
 
-  /* Pagination */
-  .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 4px solid #000;
-  }
-
-  .pagination-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    font-size: 0.85rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border: 4px solid #000;
-    background: #fff;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    box-shadow: 3px 3px 0 #000;
-  }
-
-  .pagination-btn:hover:not(:disabled) {
-    transform: translate(1px, 1px);
-    box-shadow: 2px 2px 0 #000;
-    background: #0066CC;
-    color: #fff;
-  }
-
-  .pagination-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-
+  /* Pagination extras */
   .pagination-arrow {
     font-size: 1.1rem;
     font-weight: 900;
-  }
-
-  .pagination-info {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    background: #ffeb80;
-    border: 4px solid #000;
-    font-weight: 800;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-  }
-
-  .pagination-current {
-    font-size: 1.1rem;
-    color: #0066CC;
   }
 
   .pagination-total {
     font-size: 1.1rem;
   }
 
-  @media (max-width: 640px) {
-    .pagination {
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .pagination-btn {
-      padding: 0.6rem 1rem;
-      font-size: 0.75rem;
-    }
-
-    .pagination-info {
-      order: -1;
-      width: 100%;
-      justify-content: center;
-    }
-  }
-
-  /* Place Card */
-  .place-card {
-    display: grid;
-    grid-template-columns: 1fr;
-    border: 8px solid #000;
-    background: #fff;
-    box-shadow: 8px 8px 0 #000;
-    overflow: hidden;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-  }
-
-  @media (min-width: 768px) {
-    .place-card {
-      grid-template-columns: 350px 1fr;
-    }
-  }
-
-  .place-card:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: 12px 12px 0 #000;
-  }
-
-  .place-card.hidden {
-    display: none;
-  }
-
-  .place-image-wrapper {
-    position: relative;
-    height: 280px;
-    overflow: hidden;
-    border-bottom: 6px solid #000;
-  }
-
-  @media (min-width: 768px) {
-    .place-image-wrapper {
-      height: auto;
-      min-height: 100%;
-      border-bottom: none;
-      border-right: 6px solid #000;
-    }
-  }
-
-  .place-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-  }
-
-  .place-badge {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    padding: 0.5rem 1rem;
-    background: #0066CC;
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 900;
-    letter-spacing: 0.1em;
-    border: 4px solid #000;
-    box-shadow: 4px 4px 0 #000;
-  }
-
+  /* Place Card Category Tag (unique colors) */
   .place-category-tag {
     position: absolute;
     bottom: 1rem;
@@ -553,124 +345,16 @@ function getRestaurantBlueShade(slug: string): number {
   }
 
   .place-category-tag.restaurant {
-    background: #ffeb80;
+    background: var(--ua-yellow-light);
     color: #000;
   }
 
   .place-category-tag.organization {
-    background: #0066CC;
+    background: var(--ua-blue);
     color: #fff;
   }
 
-  /* Organization Placeholder */
-  .org-image {
-    background: linear-gradient(135deg, #0066CC 0%, #004a99 100%);
-  }
-
-  .org-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-
-  .org-icon {
-    font-size: 5rem;
-    z-index: 2;
-  }
-
-  .org-pattern {
-    position: absolute;
-    inset: 0;
-    background: 
-      repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 20px,
-        rgba(255,255,255,0.05) 20px,
-        rgba(255,255,255,0.05) 40px
-      );
-  }
-
-  /* Restaurant Placeholder */
-  .restaurant-image.restaurant-shade-0 {
-    background: linear-gradient(135deg, #0057B7 0%, #004a99 100%);
-  }
-
-  .restaurant-image.restaurant-shade-1 {
-    background: linear-gradient(135deg, #0066CC 0%, #0052a3 100%);
-  }
-
-  .restaurant-image.restaurant-shade-2 {
-    background: linear-gradient(135deg, #004a99 0%, #003d7a 100%);
-  }
-
-  .restaurant-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-
-  .restaurant-emojis {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    z-index: 2;
-  }
-
-  .restaurant-emoji {
-    font-size: 4rem;
-    display: inline-block;
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .restaurant-emoji:nth-child(1) {
-    animation-delay: 0s;
-  }
-
-  .restaurant-emoji:nth-child(2) {
-    animation-delay: 0.5s;
-  }
-
-  .restaurant-emoji:nth-child(3) {
-    animation-delay: 1s;
-  }
-
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
-  .restaurant-pattern {
-    position: absolute;
-    inset: 0;
-    background: 
-      repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 20px,
-        rgba(255,255,255,0.05) 20px,
-        rgba(255,255,255,0.05) 40px
-      );
-  }
-
-  .place-content {
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
+  /* Place Header */
   .place-header {
     display: flex;
     align-items: flex-start;
@@ -679,34 +363,13 @@ function getRestaurantBlueShade(slug: string): number {
     flex-wrap: wrap;
   }
 
-  .place-name {
-    font-size: 1.75rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    line-height: 1.1;
-    margin: 0;
-    padding: 0;
-    border: none;
-    position: relative;
-    display: inline-block;
-  }
-
-  .place-name::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: linear-gradient(90deg, #0066CC 0%, #ffeb80 100%);
-  }
-
+  /* Verified Badge */
   .place-rating {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 0.75rem;
-    background: #ffeb80;
+    background: var(--ua-yellow-light);
     border: 4px solid #000;
   }
 
@@ -720,17 +383,12 @@ function getRestaurantBlueShade(slug: string): number {
     font-size: 1rem;
   }
 
-  .stars {
-    color: #0066CC;
-    font-size: 1rem;
-    letter-spacing: -2px;
-  }
-
   .rating-text {
     font-weight: 900;
     font-size: 1rem;
   }
 
+  /* Detail Items */
   .place-details {
     display: flex;
     flex-wrap: wrap;
@@ -749,54 +407,14 @@ function getRestaurantBlueShade(slug: string): number {
     font-size: 1rem;
   }
 
+  /* Tags Container */
   .place-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
 
-  .tag {
-    padding: 0.375rem 0.75rem;
-    background: #000;
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .tag:nth-child(2) {
-    background: #0066CC;
-  }
-
-  .tag:nth-child(3) {
-    background: #ffeb80;
-    color: #000;
-  }
-
-  /* Submit Card */
-  .submit-card {
-    position: relative;
-    margin-top: 3rem;
-    padding: 3rem;
-    background: #fff;
-    border: 8px solid #000;
-    box-shadow: 8px 8px 0 #000;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 2rem;
-    align-items: center;
-  }
-
-  @media (max-width: 768px) {
-    .submit-card {
-      grid-template-columns: 1fr;
-      padding: 2rem;
-      text-align: center;
-    }
-  }
-
+  /* Submit Card Content */
   .submit-decoration {
     position: relative;
     width: 100px;
@@ -810,20 +428,6 @@ function getRestaurantBlueShade(slug: string): number {
     .submit-decoration {
       margin: 0 auto;
     }
-  }
-
-  .deco-plus {
-    font-size: 6rem;
-    font-weight: 900;
-    line-height: 1;
-    color: #0066CC;
-    position: absolute;
-  }
-
-  .deco-plus.secondary {
-    color: #ffeb80;
-    transform: translate(8px, 8px);
-    z-index: -1;
   }
 
   .submit-content {
@@ -849,7 +453,7 @@ function getRestaurantBlueShade(slug: string): number {
     font-weight: 800;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #0066CC;
+    color: var(--ua-blue);
   }
 
   .submit-title {
@@ -874,152 +478,18 @@ function getRestaurantBlueShade(slug: string): number {
     .submit-description {
       max-width: 100%;
     }
-  }
 
-  .submit-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.75rem;
-    background: #0066CC;
-    color: #fff;
-    font-size: 0.9rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border: 4px solid #000;
-    box-shadow: 4px 4px 0 #000;
-    transition: all 0.15s ease;
-    text-decoration: none;
-    width: fit-content;
-  }
-
-  @media (max-width: 768px) {
-    .submit-button {
+    .neo-btn {
       margin: 0 auto;
     }
-  }
-
-  .submit-button:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 #000;
-    background: #004a99;
   }
 
   .btn-icon {
     font-size: 1.25rem;
   }
 
-  .submit-flag {
-    display: flex;
-    flex-direction: column;
-    width: 60px;
-    height: 100%;
-    min-height: 120px;
-    border: 4px solid #000;
-    overflow: hidden;
-  }
-
-  @media (max-width: 768px) {
-    .submit-flag {
-      width: 100%;
-      height: 20px;
-      min-height: auto;
-      flex-direction: row;
-    }
-  }
-
-  .flag-stripe {
-    flex: 1;
-  }
-
-  .flag-stripe.blue {
-    background: #0066CC;
-  }
-
-  .flag-stripe.yellow {
-    background: #FFD700;
-  }
-
-  /* Footer */
-  .site-footer {
-    border-top: 6px solid #000;
-    padding: 4rem 2rem;
-    background: #fff;
-    color: #000;
-  }
-
-  .footer-content {
-    max-width: 72rem;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-  }
-
-  .footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-    border: none;
-    box-shadow: none;
-  }
-  
-  .footer-brand:hover {
-    background: transparent;
-    box-shadow: none;
-  }
-
-  .footer-center {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-left: auto;
-  }
-
-  .slava-text {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    background: linear-gradient(180deg, #0066CC 50%, #FFD700 50%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .footer-nav {
-    display: flex;
-    gap: 2rem;
-  }
-
-  .footer-nav a {
-    color: #000;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border: none;
-    box-shadow: none;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .footer-nav a:hover {
-    color: #0066CC;
-    background: transparent;
-  }
-
   /* Responsive adjustments */
   @media (max-width: 640px) {
-    .hero {
-      padding: 3rem 1.5rem 4rem;
-    }
-
     .section {
       padding: 3rem 0;
     }
@@ -1027,35 +497,19 @@ function getRestaurantBlueShade(slug: string): number {
     .main-content {
       padding: 0 1.5rem;
     }
+  }
 
-    .footer-nav {
-      gap: 1.5rem;
-    }
+  /* Slava text styling */
+  .slava-text {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
 
-    .footer-content {
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .footer-center {
-      margin-left: 0;
-    }
-
+  @media (max-width: 640px) {
     .slava-text {
       font-size: 2rem;
-    }
-
-    .filter-bar {
-      gap: 0.5rem;
-    }
-
-    .filter-btn {
-      padding: 0.6rem 1rem;
-      font-size: 0.7rem;
-    }
-
-    .place-name {
-      font-size: 1.5rem;
     }
   }
 </style>
@@ -1066,8 +520,8 @@ function getRestaurantBlueShade(slug: string): number {
     let currentPage = 1;
     let currentFilter = 'all';
 
-    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-    const placeCards = document.querySelectorAll<HTMLAnchorElement>('.place-card');
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.neo-filter-btn');
+    const placeCards = document.querySelectorAll<HTMLAnchorElement>('.neo-place-card');
     const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement;
     const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
     const currentPageEl = document.getElementById('current-page')!;
