@@ -58,8 +58,8 @@ function getRestaurantBlueShade(slug: string): number {
   <div class="homepage">
     <!-- Language Switcher -->
     <div class="lang-switcher">
-      <a href="/de/" class={`lang-btn ${locale === 'de' ? 'active' : ''}`}>DE</a>
-      <a href="/uk/" class={`lang-btn ${locale === 'uk' ? 'active' : ''}`}>UK</a>
+      <a href={`${import.meta.env.BASE_URL}de/`} class={`lang-btn ${locale === 'de' ? 'active' : ''}`}>DE</a>
+      <a href={`${import.meta.env.BASE_URL}uk/`} class={`lang-btn ${locale === 'uk' ? 'active' : ''}`}>UK</a>
     </div>
 
     <!-- Hero Section -->
@@ -104,7 +104,7 @@ function getRestaurantBlueShade(slug: string): number {
             const blueShade = isRestaurant ? getRestaurantBlueShade(slug) : 0;
             
             return (
-              <a href={`/${locale}/places/${slug}/`} class="place-card" data-category={data.category}>
+              <a href={`${import.meta.env.BASE_URL}${locale}/places/${slug}/`} class="place-card" data-category={data.category}>
                 <div class={`place-image-wrapper ${isOrganization ? 'org-image' : ''} ${isRestaurant ? `restaurant-image restaurant-shade-${blueShade}` : ''}`}>
                   {isRestaurant ? (
                     <div class="restaurant-placeholder">

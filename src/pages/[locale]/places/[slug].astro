@@ -38,8 +38,8 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
   
   <!-- Language Switcher -->
   <div class="lang-switcher">
-    <a href={`/de/places/${slug}/`} class={`lang-btn ${locale === 'de' ? 'active' : ''}`}>DE</a>
-    <a href={`/uk/places/${slug}/`} class={`lang-btn ${locale === 'uk' ? 'active' : ''}`}>UK</a>
+    <a href={`${import.meta.env.BASE_URL}de/places/${slug}/`} class={`lang-btn ${locale === 'de' ? 'active' : ''}`}>DE</a>
+    <a href={`${import.meta.env.BASE_URL}uk/places/${slug}/`} class={`lang-btn ${locale === 'uk' ? 'active' : ''}`}>UK</a>
   </div>
 
   <main class="place-detail">
@@ -48,7 +48,7 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
     {data.image && (
       <div class="hero-container">
         <div class="hero-image">
-          <img src={data.image} alt={data.name} />
+          <img src={`${import.meta.env.BASE_URL}${data.image.replace(/^\//, '')}`} alt={data.name} />
         </div>
       </div>
     )}
@@ -57,7 +57,7 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
     <div class="content-grid">
       <!-- Breadcrumbs above sidebar -->
       <nav class="breadcrumb">
-        <a href={`/${locale}/`}>{t(locale, 'nav.home')}</a>
+        <a href={`${import.meta.env.BASE_URL}${locale}/`}>{t(locale, 'nav.home')}</a>
         <span>→</span>
         <span class="current">{data.name}</span>
       </nav>
@@ -109,7 +109,7 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
 
     <!-- Back Navigation -->
     <nav class="back-nav">
-      <a href={`/${locale}/`}>
+      <a href={`${import.meta.env.BASE_URL}${locale}/`}>
         <span class="back-arrow">←</span>
         {t(locale, 'back.link')}
       </a>
