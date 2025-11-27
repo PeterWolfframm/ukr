@@ -1,11 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@plugin "daisyui";
-
 
 @custom-variant dark (&:is(.dark *));
 
+/* ==========================================================================
+   CSS Custom Properties - Design Tokens
+   ========================================================================== */
+
 :root {
+  /* Base colors */
   --background: oklch(92.8% 0.115 85.5);
   --secondary-background: oklch(100% 0 0);
   --foreground: oklch(0% 0 0);
@@ -14,6 +17,31 @@
   --border: oklch(0% 0 0);
   --ring: oklch(0% 0 0);
   --overlay: oklch(0% 0 0 / 0.8);
+
+  /* Ukrainian colors */
+  --ua-blue: #0066CC;
+  --ua-blue-dark: #004a99;
+  --ua-blue-darker: #003d7a;
+  --ua-yellow: #FFD700;
+  --ua-yellow-light: #ffeb80;
+
+  /* Neobrutalism tokens */
+  --neo-border-color: #000;
+  --neo-border-xs: 2px;
+  --neo-border-sm: 3px;
+  --neo-border-md: 4px;
+  --neo-border-lg: 6px;
+  --neo-border-xl: 8px;
+
+  --neo-shadow-xs: 1px 1px 0 var(--neo-border-color);
+  --neo-shadow-sm: 2px 2px 0 var(--neo-border-color);
+  --neo-shadow-md: 3px 3px 0 var(--neo-border-color);
+  --neo-shadow-lg: 4px 4px 0 var(--neo-border-color);
+  --neo-shadow-xl: 6px 6px 0 var(--neo-border-color);
+  --neo-shadow-2xl: 8px 8px 0 var(--neo-border-color);
+  --neo-shadow-3xl: 12px 12px 0 var(--neo-border-color);
+
+  /* Charts */
   --shadow: 2px 2px 0px 0px var(--border);
   --chart-1: #FF7A05;
   --chart-2: #0066CC;
@@ -40,6 +68,7 @@
   --chart-active-dot: #fff;
 }
 
+/* Tailwind theme extensions */
 @theme inline {
   --color-main: var(--main);
   --color-background: var(--background);
@@ -49,6 +78,10 @@
   --color-border: var(--border);
   --color-overlay: var(--overlay);
   --color-ring: var(--ring);
+  --color-ua-blue: var(--ua-blue);
+  --color-ua-blue-dark: var(--ua-blue-dark);
+  --color-ua-yellow: var(--ua-yellow);
+  --color-ua-yellow-light: var(--ua-yellow-light);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -64,16 +97,21 @@
   --font-weight-base: 500;
   --font-weight-heading: 900;
 }
-  
+
+/* ==========================================================================
+   Base Layer - Element Defaults
+   ========================================================================== */
+
 @layer base {
   body {
     @apply text-foreground font-base bg-background;
   }
 
-  h1, h2, h3, h4, h5, h6{
+  h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
   }
 
+  /* Default heading styles */
   h1 {
     font-size: 3rem;
     font-weight: 900;
@@ -91,7 +129,7 @@
     left: 0;
     width: 160px;
     height: 10px;
-    background: linear-gradient(90deg, #0066CC 0%, #0066CC 100%);
+    background: linear-gradient(90deg, var(--ua-blue) 0%, var(--ua-blue) 100%);
   }
 
   h2 {
@@ -135,17 +173,19 @@
     @apply text-lg leading-relaxed mb-4;
   }
 
+  /* Default link styles with underline effect */
   a {
     border-bottom: 3px solid #000;
-    box-shadow: inset 0 -0.35rem 0 0 #0066CC;
+    box-shadow: inset 0 -0.35rem 0 0 var(--ua-blue);
     text-decoration: none;
     color: inherit;
   }
 
   a:hover {
-    background: #0066CC;
+    background: var(--ua-blue);
   }
 
+  /* Neo-card decorative border */
   .neo-card::before {
     content: '';
     position: absolute;
@@ -153,11 +193,13 @@
     left: -8px;
     right: -8px;
     bottom: -8px;
-    border: 6px solid #0066CC;
+    border: 6px solid var(--ua-blue);
     pointer-events: none;
   }
 
-  /* Prose styles for article content */
+  /* ==========================================================================
+     Prose Styles (for markdown content) - Legacy support
+     ========================================================================== */
   .prose {
     line-height: 1.75;
   }
@@ -363,5 +405,1007 @@
   /* Links within prose */
   .prose a {
     font-weight: 600;
+  }
+}
+
+/* ==========================================================================
+   Utilities Layer - Neobrutalism Building Blocks
+   ========================================================================== */
+
+@layer utilities {
+  /* Border utilities */
+  .neo-border-xs { border: var(--neo-border-xs) solid var(--neo-border-color); }
+  .neo-border-sm { border: var(--neo-border-sm) solid var(--neo-border-color); }
+  .neo-border { border: var(--neo-border-md) solid var(--neo-border-color); }
+  .neo-border-lg { border: var(--neo-border-lg) solid var(--neo-border-color); }
+  .neo-border-xl { border: var(--neo-border-xl) solid var(--neo-border-color); }
+
+  .neo-border-b { border-bottom: var(--neo-border-md) solid var(--neo-border-color); }
+  .neo-border-b-lg { border-bottom: var(--neo-border-lg) solid var(--neo-border-color); }
+  .neo-border-b-xl { border-bottom: var(--neo-border-xl) solid var(--neo-border-color); }
+  .neo-border-r-lg { border-right: var(--neo-border-lg) solid var(--neo-border-color); }
+
+  /* Shadow utilities */
+  .neo-shadow-xs { box-shadow: var(--neo-shadow-xs); }
+  .neo-shadow-sm { box-shadow: var(--neo-shadow-sm); }
+  .neo-shadow { box-shadow: var(--neo-shadow-md); }
+  .neo-shadow-lg { box-shadow: var(--neo-shadow-lg); }
+  .neo-shadow-xl { box-shadow: var(--neo-shadow-xl); }
+  .neo-shadow-2xl { box-shadow: var(--neo-shadow-2xl); }
+  .neo-shadow-3xl { box-shadow: var(--neo-shadow-3xl); }
+
+  /* Typography utilities */
+  .neo-heading {
+    @apply font-black uppercase tracking-tight;
+  }
+
+  .neo-label {
+    @apply text-xs font-extrabold uppercase tracking-widest;
+  }
+
+  .neo-text-stroke {
+    color: transparent;
+    -webkit-text-stroke: 2px #000;
+    text-stroke: 2px #000;
+  }
+
+  .neo-text-stroke-lg {
+    color: transparent;
+    -webkit-text-stroke: 4px #000;
+    text-stroke: 4px #000;
+  }
+
+  .neo-text-stroke-blue {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--ua-blue);
+    text-stroke: 2px var(--ua-blue);
+  }
+
+  .neo-text-stroke-blue-lg {
+    color: transparent;
+    -webkit-text-stroke: 4px var(--ua-blue);
+    text-stroke: 4px var(--ua-blue);
+  }
+
+  /* Ukrainian gradient text */
+  .ua-gradient-text {
+    background: linear-gradient(180deg, var(--ua-blue) 50%, var(--ua-yellow) 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Pattern backgrounds */
+  .neo-pattern-stripes {
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(255,255,255,0.05) 20px,
+      rgba(255,255,255,0.05) 40px
+    );
+  }
+}
+
+/* ==========================================================================
+   Components Layer - Reusable UI Components
+   ========================================================================== */
+
+@layer components {
+  /* ------------------------------------
+     Buttons
+     ------------------------------------ */
+  .neo-btn {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply font-extrabold uppercase tracking-wide;
+    @apply transition-all duration-150 ease-out cursor-pointer;
+    @apply neo-border neo-shadow-lg;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+  }
+
+  .neo-btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: var(--neo-shadow-sm);
+  }
+
+  .neo-btn:disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  .neo-btn:disabled:hover {
+    transform: none;
+    box-shadow: var(--neo-shadow-lg);
+  }
+
+  /* Button variants */
+  .neo-btn-primary {
+    @apply neo-btn bg-ua-blue text-white;
+  }
+
+  .neo-btn-primary:hover:not(:disabled) {
+    @apply bg-ua-blue-dark;
+  }
+
+  .neo-btn-secondary {
+    @apply neo-btn bg-white text-black;
+  }
+
+  .neo-btn-secondary:hover:not(:disabled) {
+    @apply bg-gray-100;
+  }
+
+  .neo-btn-ghost {
+    @apply neo-btn bg-transparent border-0 shadow-none;
+  }
+
+  .neo-btn-ghost:hover {
+    @apply bg-gray-100;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Button sizes */
+  .neo-btn-sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .neo-btn-lg {
+    padding: 1rem 1.75rem;
+    font-size: 0.9rem;
+  }
+
+  /* Active/pressed state for toggles */
+  .neo-btn-active {
+    @apply bg-ua-blue text-white;
+    transform: translate(2px, 2px);
+    box-shadow: var(--neo-shadow-xs);
+  }
+
+  /* ------------------------------------
+     Cards
+     ------------------------------------ */
+  .neo-card {
+    @apply bg-white neo-border-xl neo-shadow-2xl overflow-hidden;
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .neo-card-hover:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--neo-shadow-3xl);
+  }
+
+  .neo-card-sm {
+    @apply bg-white neo-border neo-shadow-lg overflow-hidden;
+  }
+
+  .neo-card-md {
+    @apply bg-white neo-border-lg neo-shadow-xl overflow-hidden;
+  }
+
+  /* ------------------------------------
+     Badges & Tags
+     ------------------------------------ */
+  .neo-badge {
+    @apply inline-block px-3 py-1.5;
+    @apply text-xs font-extrabold uppercase tracking-wide;
+    @apply neo-border neo-shadow-lg;
+  }
+
+  .neo-badge-primary {
+    @apply neo-badge bg-ua-blue text-white;
+  }
+
+  .neo-badge-secondary {
+    @apply neo-badge bg-ua-yellow-light text-black;
+  }
+
+  .neo-tag {
+    @apply inline-block px-3 py-1;
+    @apply text-xs font-bold uppercase tracking-wide;
+    @apply bg-black text-white;
+  }
+
+  .neo-tag:nth-child(2) {
+    @apply bg-ua-blue;
+  }
+
+  .neo-tag:nth-child(3) {
+    @apply bg-ua-yellow-light text-black;
+  }
+
+  /* ------------------------------------
+     Language Switcher
+     ------------------------------------ */
+  .neo-lang-switcher {
+    @apply fixed top-4 right-4 z-50;
+    @apply flex gap-0.5;
+    @apply bg-white neo-border neo-shadow-lg;
+  }
+
+  .neo-lang-btn {
+    @apply px-3 py-2;
+    @apply text-xs font-black;
+    @apply transition-all duration-150;
+  }
+
+  .neo-lang-btn:hover {
+    @apply bg-gray-100;
+  }
+
+  .neo-lang-btn.active {
+    @apply bg-ua-blue text-white;
+  }
+
+  /* ------------------------------------
+     Navbar
+     ------------------------------------ */
+  .neo-navbar {
+    @apply flex items-center justify-between;
+    @apply px-8 py-4;
+    @apply bg-background neo-border-b;
+  }
+
+  .neo-navbar-brand {
+    @apply flex items-baseline gap-1.5;
+    @apply transition-opacity duration-150;
+  }
+
+  .neo-navbar-brand:hover {
+    @apply opacity-80;
+  }
+
+  /* ------------------------------------
+     Hero Section
+     ------------------------------------ */
+  .neo-hero {
+    @apply relative overflow-hidden neo-border-b-xl;
+    @apply px-8 py-16 pb-24;
+    background: 
+      linear-gradient(135deg, transparent 0%, transparent 50%, rgba(0, 102, 204, 0.08) 50%, rgba(0, 102, 204, 0.08) 100%),
+      var(--background);
+  }
+
+  .neo-hero-title {
+    @apply neo-heading leading-none m-0 p-0 border-0;
+    font-size: clamp(3.5rem, 12vw, 8rem);
+    letter-spacing: -0.02em;
+  }
+
+  .neo-hero-title::after {
+    display: none;
+  }
+
+  /* ------------------------------------
+     Filter Bar
+     ------------------------------------ */
+  .neo-filter-bar {
+    @apply flex flex-wrap gap-3;
+    @apply py-8 neo-border-b;
+  }
+
+  .neo-filter-btn {
+    @apply neo-btn-secondary neo-btn-sm;
+    @apply flex items-center gap-2;
+  }
+
+  .neo-filter-btn.active {
+    @apply neo-btn-active;
+  }
+
+  /* ------------------------------------
+     Place Card (listing)
+     ------------------------------------ */
+  .neo-place-card {
+    @apply neo-card neo-card-hover;
+    @apply grid grid-cols-1 md:grid-cols-[350px_1fr];
+    @apply cursor-pointer;
+  }
+
+  .neo-place-card.hidden {
+    @apply hidden;
+  }
+
+  .neo-place-image {
+    @apply relative h-72 md:h-auto md:min-h-full overflow-hidden;
+    @apply neo-border-b-lg md:border-b-0 md:neo-border-r-lg;
+  }
+
+  .neo-place-content {
+    @apply p-8 flex flex-col gap-5;
+  }
+
+  .neo-place-name {
+    @apply neo-heading text-3xl m-0 p-0 border-0 relative inline-block;
+    line-height: 1.1;
+  }
+
+  .neo-place-name::after {
+    content: '';
+    @apply absolute bottom-[-4px] left-0 w-full h-1.5;
+    background: linear-gradient(90deg, var(--ua-blue) 0%, var(--ua-yellow-light) 100%);
+  }
+
+  /* ------------------------------------
+     Pagination
+     ------------------------------------ */
+  .neo-pagination {
+    @apply flex items-center justify-center gap-6 flex-wrap;
+    @apply mt-12 pt-8 neo-border-t;
+  }
+
+  .neo-pagination-info {
+    @apply flex items-center gap-2;
+    @apply px-5 py-3;
+    @apply bg-ua-yellow-light neo-border;
+    @apply font-extrabold uppercase text-sm;
+  }
+
+  .neo-pagination-current {
+    @apply text-lg text-ua-blue;
+  }
+
+  /* ------------------------------------
+     Submit Card
+     ------------------------------------ */
+  .neo-submit-card {
+    @apply neo-card mt-12;
+    @apply grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-8;
+    @apply p-8 md:p-12 items-center;
+  }
+
+  .neo-submit-card .deco-plus {
+    @apply text-7xl font-black leading-none absolute;
+    color: var(--ua-blue);
+  }
+
+  .neo-submit-card .deco-plus.secondary {
+    color: var(--ua-yellow-light);
+    transform: translate(8px, 8px);
+    z-index: -1;
+  }
+
+  /* ------------------------------------
+     Footer
+     ------------------------------------ */
+  .neo-footer {
+    @apply neo-border-t-lg;
+    @apply px-8 py-16;
+    @apply bg-white text-black;
+  }
+
+  .neo-footer-content {
+    @apply max-w-6xl mx-auto;
+    @apply flex justify-between items-center flex-wrap gap-6;
+  }
+
+  /* ------------------------------------
+     Detail Page Components
+     ------------------------------------ */
+  .neo-hero-image {
+    @apply relative my-8 h-80 overflow-hidden;
+    @apply neo-border-lg neo-shadow-2xl;
+    @apply transition-all duration-200;
+  }
+
+  .neo-hero-image:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--neo-shadow-3xl);
+  }
+
+  .neo-hero-image img {
+    @apply w-full h-full object-cover;
+    @apply transition-transform duration-400;
+  }
+
+  .neo-hero-image:hover img {
+    transform: scale(1.02);
+  }
+
+  .neo-breadcrumb {
+    @apply flex items-center gap-2;
+    @apply neo-label mb-6;
+    grid-column: 1 / -1;
+  }
+
+  .neo-breadcrumb a {
+    @apply opacity-70 transition-opacity;
+  }
+
+  .neo-breadcrumb a:hover {
+    @apply opacity-100;
+  }
+
+  .neo-breadcrumb .current {
+    @apply opacity-60 max-w-xs truncate;
+  }
+
+  .neo-details-card {
+    @apply bg-white neo-border neo-shadow-xl;
+  }
+
+  .neo-detail-item {
+    @apply flex gap-4 p-4;
+    @apply border-b-2 border-gray-200;
+  }
+
+  .neo-detail-item:last-child {
+    @apply border-b-0;
+  }
+
+  .neo-detail-icon {
+    @apply text-xl flex-shrink-0 w-7 text-center;
+  }
+
+  .neo-detail-label {
+    @apply neo-label text-gray-500;
+  }
+
+  .neo-detail-value {
+    @apply text-base font-semibold leading-tight;
+  }
+
+  .neo-tags-box {
+    @apply p-5 bg-gray-100 neo-border-sm;
+  }
+
+  .neo-tags-title {
+    @apply neo-label text-gray-500 mb-3 block;
+  }
+
+  .neo-tag-list {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .neo-tag-item {
+    @apply px-3 py-1.5;
+    @apply bg-white neo-border-xs;
+    @apply text-xs font-bold uppercase tracking-wide;
+  }
+
+  .neo-back-nav {
+    @apply mt-16 pt-8 neo-border-t;
+  }
+
+  .neo-back-link {
+    @apply inline-flex items-center gap-2;
+    @apply text-sm font-bold uppercase tracking-wide;
+    @apply transition-all duration-200;
+  }
+
+  .neo-back-link:hover {
+    gap: 0.75rem;
+  }
+
+  .neo-back-arrow {
+    @apply inline-flex items-center justify-center;
+    @apply w-8 h-8 bg-ua-blue text-white text-base;
+    @apply neo-border-sm;
+    @apply transition-transform duration-200;
+  }
+
+  .neo-back-link:hover .neo-back-arrow {
+    transform: translateX(-3px);
+  }
+
+  /* ------------------------------------
+     MyPaperwork Card
+     ------------------------------------ */
+  .neo-promo-card {
+    @apply neo-card mt-12 relative overflow-hidden;
+  }
+
+  .neo-promo-card .card-pattern {
+    @apply absolute inset-0 pointer-events-none;
+    background: 
+      radial-gradient(circle at 100% 0%, rgba(0, 107, 105, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 0% 100%, rgba(0, 107, 105, 0.05) 0%, transparent 40%);
+  }
+
+  .neo-promo-content {
+    @apply relative grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 md:gap-12 p-8 md:p-12 items-center;
+  }
+
+  .neo-promo-logo {
+    @apply relative p-6 px-8 bg-white;
+    border: 4px solid #006B69;
+    box-shadow: 6px 6px 0 rgba(0, 107, 105, 0.3);
+  }
+
+  .neo-promo-logo::before {
+    content: '';
+    @apply absolute -inset-3;
+    border: 4px dashed #006B69;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .neo-promo-eyebrow {
+    @apply inline-block px-3 py-1.5;
+    @apply text-xs font-black tracking-widest;
+    @apply bg-[#006B69] text-white;
+    width: fit-content;
+  }
+
+  .neo-promo-title {
+    @apply text-3xl font-black m-0 p-0 border-0 leading-tight;
+    text-transform: none;
+  }
+
+  .neo-promo-title::after {
+    display: none;
+  }
+
+  .neo-promo-cta {
+    @apply neo-btn-lg;
+    @apply bg-[#006B69] text-white neo-border neo-shadow-lg;
+    width: fit-content;
+  }
+
+  .neo-promo-cta:hover {
+    transform: translate(2px, 2px);
+    box-shadow: var(--neo-shadow-sm);
+    background: #005654;
+  }
+
+  .neo-promo-bar {
+    @apply h-3;
+    background: linear-gradient(90deg, #006B69 0%, #006B69 60%, #000 60%, #000 100%);
+  }
+
+  /* ------------------------------------
+     Powered By Component
+     ------------------------------------ */
+  .neo-powered-by {
+    @apply flex items-center gap-2.5;
+    @apply transition-opacity duration-150;
+  }
+
+  .neo-powered-by:hover {
+    @apply opacity-75;
+  }
+
+  .neo-powered-by-text {
+    @apply text-lg font-semibold text-gray-500 tracking-wide whitespace-nowrap;
+  }
+
+  .neo-powered-by-logo {
+    @apply h-10 w-auto flex-shrink-0;
+  }
+
+  .neo-powered-by--header {
+    @apply mt-6;
+  }
+
+  .neo-powered-by--header .neo-powered-by-text {
+    @apply text-base;
+  }
+
+  .neo-powered-by--header .neo-powered-by-logo {
+    @apply h-9;
+  }
+
+  .neo-powered-by--footer .neo-powered-by-text {
+    @apply text-xl lowercase;
+  }
+
+  .neo-powered-by--footer .neo-powered-by-logo {
+    @apply h-16;
+  }
+
+  /* ------------------------------------
+     Restaurant/Org Placeholders
+     ------------------------------------ */
+  .neo-placeholder {
+    @apply w-full h-full flex items-center justify-center relative;
+  }
+
+  .neo-placeholder-org {
+    background: linear-gradient(135deg, var(--ua-blue) 0%, var(--ua-blue-dark) 100%);
+  }
+
+  .neo-placeholder-restaurant-0 {
+    background: linear-gradient(135deg, #0057B7 0%, #004a99 100%);
+  }
+
+  .neo-placeholder-restaurant-1 {
+    background: linear-gradient(135deg, #0066CC 0%, #0052a3 100%);
+  }
+
+  .neo-placeholder-restaurant-2 {
+    background: linear-gradient(135deg, #004a99 0%, #003d7a 100%);
+  }
+
+  .neo-emoji-group {
+    @apply flex items-center justify-center gap-4 z-10;
+  }
+
+  .neo-emoji {
+    @apply text-5xl inline-block;
+    animation: neo-float 3s ease-in-out infinite;
+  }
+
+  .neo-emoji:nth-child(1) { animation-delay: 0s; }
+  .neo-emoji:nth-child(2) { animation-delay: 0.5s; }
+  .neo-emoji:nth-child(3) { animation-delay: 1s; }
+
+  @keyframes neo-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* ------------------------------------
+     Ukrainian Flag Element
+     ------------------------------------ */
+  .neo-ua-flag {
+    @apply flex neo-border overflow-hidden;
+  }
+
+  .neo-ua-flag-vertical {
+    @apply flex-col w-16 min-h-32;
+  }
+
+  .neo-ua-flag-horizontal {
+    @apply flex-row w-full h-5;
+  }
+
+  .neo-ua-flag-stripe {
+    @apply flex-1;
+  }
+
+  .neo-ua-flag-blue {
+    @apply bg-ua-blue;
+  }
+
+  .neo-ua-flag-yellow {
+    @apply bg-ua-yellow;
+  }
+
+  /* ------------------------------------
+     Map Embed
+     ------------------------------------ */
+  .neo-map-embed {
+    @apply mt-12 pt-8 neo-border-t;
+  }
+
+  .neo-map-embed iframe {
+    @apply w-full h-96 md:h-[400px];
+    @apply neo-border neo-shadow-xl;
+  }
+}
+
+/* ==========================================================================
+   Prose Styles (for markdown content)
+   ========================================================================== */
+
+@layer components {
+  .neo-prose {
+    @apply text-lg leading-relaxed;
+  }
+
+  .neo-prose p {
+    @apply mb-5 text-gray-800;
+  }
+
+  .neo-prose h2 {
+    @apply neo-heading text-2xl mt-10 mb-4 pb-2 neo-border-b;
+  }
+
+  .neo-prose h2::after {
+    display: none;
+  }
+
+  .neo-prose h3 {
+    @apply neo-heading text-xl mt-8 mb-3;
+  }
+
+  .neo-prose h4, .neo-prose h5, .neo-prose h6 {
+    @apply neo-heading mt-6 mb-2;
+  }
+
+  .neo-prose ul, .neo-prose ol {
+    @apply my-6 pl-0;
+  }
+
+  .neo-prose ul {
+    @apply list-none;
+  }
+
+  .neo-prose ul li {
+    @apply relative mb-3 pl-6;
+  }
+
+  .neo-prose ul li::before {
+    content: '■';
+    @apply absolute left-0 text-ua-blue text-xs;
+    top: 0.35rem;
+  }
+
+  .neo-prose ol {
+    @apply list-none;
+    counter-reset: item;
+  }
+
+  .neo-prose ol li {
+    @apply relative mb-3 pl-8;
+    counter-increment: item;
+  }
+
+  .neo-prose ol li::before {
+    content: counter(item);
+    @apply absolute left-0 top-0;
+    @apply font-black text-sm;
+    @apply bg-main text-main-foreground;
+    @apply w-6 h-6 flex items-center justify-center;
+    @apply neo-border-xs;
+  }
+
+  .neo-prose blockquote {
+    @apply relative my-8 p-6 pl-8;
+    @apply bg-secondary-background neo-border;
+    border-left: 8px solid var(--main);
+    box-shadow: var(--neo-shadow-sm);
+    @apply italic text-lg;
+  }
+
+  .neo-prose blockquote::before {
+    content: '"';
+    @apply absolute font-black text-main leading-none;
+    top: -0.5rem;
+    left: 0.75rem;
+    font-size: 4rem;
+    font-style: normal;
+    opacity: 0.5;
+  }
+
+  .neo-prose blockquote p {
+    @apply mb-0 relative z-10;
+  }
+
+  .neo-prose pre {
+    @apply my-6 p-5;
+    @apply bg-secondary-background neo-border neo-shadow-sm;
+    @apply overflow-x-auto;
+    @apply font-mono text-sm leading-relaxed;
+  }
+
+  .neo-prose code {
+    @apply font-mono text-sm font-semibold;
+    @apply bg-secondary-background px-1.5 py-0.5 neo-border-xs;
+  }
+
+  .neo-prose pre code {
+    @apply bg-transparent p-0 border-0 font-normal;
+  }
+
+  .neo-prose table {
+    @apply w-full my-6 border-collapse;
+    @apply neo-border neo-shadow-sm;
+  }
+
+  .neo-prose th, .neo-prose td {
+    @apply p-3 text-left neo-border-xs;
+  }
+
+  .neo-prose th {
+    @apply bg-main text-main-foreground;
+    @apply font-black uppercase text-sm tracking-wide;
+  }
+
+  .neo-prose tr:nth-child(even) {
+    @apply bg-secondary-background;
+  }
+
+  .neo-prose hr {
+    @apply my-10 border-0 h-1.5 bg-border relative;
+  }
+
+  .neo-prose hr::after {
+    content: '';
+    @apply absolute left-0 top-0 w-20 h-1.5 bg-main;
+  }
+
+  .neo-prose strong {
+    @apply font-extrabold;
+  }
+
+  .neo-prose a {
+    @apply font-semibold;
+    border-bottom: 3px solid #000;
+    box-shadow: inset 0 -0.35rem 0 0 var(--ua-blue);
+  }
+
+  .neo-prose a:hover {
+    @apply bg-ua-blue;
+  }
+}
+
+/* ==========================================================================
+   Legacy Component Styles (for backward compatibility)
+   These support the existing component markup until migrated to neo-* classes
+   ========================================================================== */
+
+@layer components {
+  /* PoweredBy Component - legacy class names */
+  .powered-by {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    text-decoration: none;
+    color: inherit;
+    border: none;
+    box-shadow: none;
+    background: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .powered-by:hover {
+    opacity: 0.75;
+  }
+
+  .powered-by:hover,
+  .powered-by:focus,
+  .powered-by:active {
+    color: inherit;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    background: none;
+  }
+
+  .powered-by__text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #666;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .powered-by__logo {
+    height: 40px;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  /* Header variant */
+  .powered-by--header {
+    margin-top: 1.5rem;
+  }
+
+  .powered-by--header .powered-by__text {
+    font-size: 1rem;
+  }
+
+  .powered-by--header .powered-by__logo {
+    height: 36px;
+  }
+
+  /* Footer variant */
+  .powered-by--footer {
+    border: none;
+    box-shadow: none;
+  }
+
+  .powered-by--footer .powered-by__text {
+    font-size: 1.4rem;
+    text-transform: lowercase;
+  }
+
+  .powered-by--footer .powered-by__logo {
+    height: 64px;
+  }
+
+  /* Mobile adjustments for powered-by */
+  @media (max-width: 640px) {
+    .powered-by {
+      gap: 0.5rem;
+    }
+
+    .powered-by__text {
+      font-size: 0.9rem;
+    }
+
+    .powered-by__logo {
+      height: 32px;
+    }
+
+    .powered-by--footer .powered-by__text {
+      font-size: 1.1rem;
+    }
+
+    .powered-by--footer .powered-by__logo {
+      height: 48px;
+    }
+  }
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+
+@layer utilities {
+  @media (max-width: 768px) {
+    .neo-hero {
+      @apply px-6 py-12 pb-16;
+    }
+
+    .neo-navbar {
+      @apply px-5 py-3.5;
+    }
+
+    .neo-place-card {
+      @apply grid-cols-1;
+    }
+
+    .neo-place-image {
+      @apply h-56 border-b-[5px] border-r-0;
+    }
+
+    .neo-place-content {
+      @apply p-6;
+    }
+
+    .neo-pagination {
+      @apply gap-4;
+    }
+
+    .neo-pagination-info {
+      @apply order-first w-full justify-center;
+    }
+
+    .neo-submit-card {
+      @apply grid-cols-1 p-6 text-center;
+    }
+
+    .neo-promo-content {
+      @apply grid-cols-1 text-center;
+    }
+
+    .neo-footer-content {
+      @apply flex-col text-center;
+    }
+
+    .neo-hero-image {
+      @apply h-56 my-6;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .neo-hero-title {
+      -webkit-text-stroke: 3px #000;
+      text-stroke: 3px #000;
+    }
+
+    .neo-filter-bar {
+      @apply gap-2;
+    }
+
+    .neo-filter-btn {
+      @apply px-3 py-2 text-xs;
+    }
+
+    .neo-place-name {
+      @apply text-2xl;
+    }
+
+    .neo-powered-by--footer .neo-powered-by-text {
+      @apply text-lg;
+    }
+
+    .neo-powered-by--footer .neo-powered-by-logo {
+      @apply h-12;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .neo-navbar {
+      @apply px-3 py-2.5;
+    }
+
+    .neo-text-stroke {
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+    }
   }
 }
