@@ -4,9 +4,7 @@ category: organization
 location: Відень
 locationBadge: "🇦🇹 ВІДЕНЬ"
 address: Schottenfeldgasse 45, 1070 Wien
-hours: "Пн–Пт: 09:00 – 18:00"
 verified: true
-phone: "+43 1 523 4567"
 tags:
   - Юридична допомога
   - Мовні курси

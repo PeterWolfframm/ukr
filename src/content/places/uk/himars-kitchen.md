@@ -4,9 +4,6 @@ category: restaurant
 location: Київ
 locationBadge: "🇺🇦 КИЇВ"
 address: Khreshchatyk Street, Kyiv
-hours: "11:00 – 23:00"
-rating: 4.9
-priceLevel: "₴₴₴"
 tags:
   - Традиційна
   - Сучасна українська

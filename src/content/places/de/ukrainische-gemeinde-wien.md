@@ -4,9 +4,7 @@ category: organization
 location: Vienna
 locationBadge: "🇦🇹 WIEN"
 address: Schottenfeldgasse 45, 1070 Wien
-hours: "Mon–Fri: 09:00 – 18:00"
 verified: true
-phone: "+43 1 523 4567"
 tags:
   - Legal Aid
   - Language Courses

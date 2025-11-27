@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import PoweredBy from '../../components/PoweredBy.astro';
+import MyPaperworkCard from '../../components/MyPaperworkCard.astro';
 import { locales, type Locale, t } from '../../i18n/utils';
 
 export function getStaticPaths() {
@@ -16,6 +17,41 @@ const places = allPlaces.filter(place => place.id.startsWith(`${locale}/`));
 
 // Get the other locale for language switcher
 const otherLocale = locale === 'de' ? 'uk' : 'de';
+
+// Food emojis for restaurant cards
+const foodEmojis = [
+  '🍕', '🍔', '🍟', '🌭', '🍿', '🧂', '🥓', '🥚', '🍳', '🧇', '🥞', '🧈', '🍞', '🥐', '🥨', '🥯', '🥖', '🧀', '🥗', '🥙', '🥪', '🌮', '🌯', '🥫', '🍝', '🍜', '🍲', '🍛', '🍣', '🍱', '🥟', '🦪', '🍤', '🍙', '🍚', '🍘', '🍥', '🥠', '🥮', '🍢', '🍡', '🍧', '🍨', '🍦', '🥧', '🧁', '🍰', '🎂', '🍮', '🍭', '🍬', '🍫', '🍿', '🍩', '🍪', '🌰', '🥜', '🍯', '🥛', '🍼', '🫖', '☕', '🍵', '🧃', '🥤', '🧋', '🍶', '🍺', '🍻', '🥂', '🍷', '🥃', '🍸', '🍹', '🧉', '🍾', '🧊', '🥄', '🍴', '🍽️', '🥢', '🥡', '🥣', '🥤', '🥃', '🍷', '🍸', '🍹', '🍺', '🍻', '🥂', '🍾', '🧊'
+];
+
+// Generate three random food emojis for a restaurant based on slug
+function getRestaurantEmojis(slug: string): string[] {
+  // Simple hash function for deterministic randomness
+  let hash = 0;
+  for (let i = 0; i < slug.length; i++) {
+    const char = slug.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  
+  const emojis: string[] = [];
+  for (let i = 0; i < 3; i++) {
+    const index = Math.abs(hash + i * 17) % foodEmojis.length;
+    emojis.push(foodEmojis[index]);
+  }
+  
+  return emojis;
+}
+
+// Get Ukrainian blue shade index (0, 1, or 2) for a restaurant based on slug
+function getRestaurantBlueShade(slug: string): number {
+  let hash = 0;
+  for (let i = 0; i < slug.length; i++) {
+    const char = slug.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash) % 3;
+}
 ---
 
 <Layout>
@@ -52,10 +88,6 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
             <span class="filter-icon">🤝</span>
             {t(locale, 'filter.organizations')}
           </button>
-          <button class="filter-btn" data-filter="medical">
-            <span class="filter-icon">🏥</span>
-            {t(locale, 'filter.medical')}
-          </button>
         </div>
       </section>
 
@@ -67,22 +99,26 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
             const slug = place.id.replace(`${locale}/`, '');
             const isRestaurant = data.category === 'restaurant';
             const isOrganization = data.category === 'organization';
-            const isMedical = data.category === 'medical';
+            
+            const restaurantEmojis = isRestaurant ? getRestaurantEmojis(slug) : [];
+            const blueShade = isRestaurant ? getRestaurantBlueShade(slug) : 0;
             
             return (
               <a href={`/${locale}/places/${slug}/`} class="place-card" data-category={data.category}>
-                <div class={`place-image-wrapper ${isOrganization ? 'org-image' : ''} ${isMedical ? 'medical-image' : ''}`}>
-                  {data.image ? (
-                    <img src={data.image} alt={data.name} class="place-image" />
+                <div class={`place-image-wrapper ${isOrganization ? 'org-image' : ''} ${isRestaurant ? `restaurant-image restaurant-shade-${blueShade}` : ''}`}>
+                  {isRestaurant ? (
+                    <div class="restaurant-placeholder">
+                      <div class="restaurant-emojis">
+                        {restaurantEmojis.map((emoji, idx) => (
+                          <span class="restaurant-emoji" key={idx}>{emoji}</span>
+                        ))}
+                      </div>
+                      <span class="restaurant-pattern"></span>
+                    </div>
                   ) : isOrganization ? (
                     <div class="org-placeholder">
                       <span class="org-icon">🇺🇦</span>
                       <span class="org-pattern"></span>
-                    </div>
-                  ) : isMedical ? (
-                    <div class="medical-placeholder">
-                      <span class="medical-icon">⚕️</span>
-                      <span class="medical-cross"></span>
                     </div>
                   ) : null}
                   <div class="place-badge">{data.locationBadge}</div>
@@ -91,45 +127,18 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
                 <div class="place-content">
                   <div class="place-header">
                     <h3 class="place-name">{data.name}</h3>
-                    {data.rating ? (
-                      <div class="place-rating">
-                        <span class="stars">★★★★★</span>
-                        <span class="rating-text">{data.rating}</span>
-                      </div>
-                    ) : data.verified ? (
+                    {data.verified && (
                       <div class="place-rating verified">
                         <span class="verified-icon">✓</span>
                         <span class="rating-text">{t(locale, 'place.verified')}</span>
                       </div>
-                    ) : null}
+                    )}
                   </div>
                   <div class="place-details">
                     <div class="detail-item">
                       <span class="detail-icon">📍</span>
                       <span>{data.address}</span>
                     </div>
-                    <div class="detail-item">
-                      <span class="detail-icon">🕐</span>
-                      <span>{data.hours}</span>
-                    </div>
-                    {data.phone && (
-                      <div class="detail-item">
-                        <span class="detail-icon">📞</span>
-                        <span>{data.phone}</span>
-                      </div>
-                    )}
-                    {data.priceLevel && (
-                      <div class="detail-item">
-                        <span class="detail-icon">💰</span>
-                        <span>{data.priceLevel}</span>
-                      </div>
-                    )}
-                    {data.insurance && (
-                      <div class="detail-item">
-                        <span class="detail-icon">💳</span>
-                        <span>{data.insurance}</span>
-                      </div>
-                    )}
                   </div>
                   <div class="place-tags">
                     {data.tags.map((tag) => (
@@ -141,6 +150,9 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
             );
           })}
         </div>
+
+        <!-- MyPaperwork RWR Card -->
+        <MyPaperworkCard locale={locale} />
 
         <!-- Submit Your Place Card -->
         <div class="submit-card">
@@ -413,10 +425,6 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
     transition: transform 0.4s ease;
   }
 
-  .place-card:hover .place-image {
-    transform: scale(1.05);
-  }
-
   .place-badge {
     position: absolute;
     top: 1rem;
@@ -453,11 +461,6 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
     color: #fff;
   }
 
-  .place-category-tag.medical {
-    background: #ff6b6b;
-    color: #fff;
-  }
-
   /* Organization Placeholder */
   .org-image {
     background: linear-gradient(135deg, #0066CC 0%, #004a99 100%);
@@ -490,12 +493,20 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
       );
   }
 
-  /* Medical Placeholder */
-  .medical-image {
-    background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+  /* Restaurant Placeholder */
+  .restaurant-image.restaurant-shade-0 {
+    background: linear-gradient(135deg, #0057B7 0%, #004a99 100%);
   }
 
-  .medical-placeholder {
+  .restaurant-image.restaurant-shade-1 {
+    background: linear-gradient(135deg, #0066CC 0%, #0052a3 100%);
+  }
+
+  .restaurant-image.restaurant-shade-2 {
+    background: linear-gradient(135deg, #004a99 0%, #003d7a 100%);
+  }
+
+  .restaurant-placeholder {
     width: 100%;
     height: 100%;
     display: flex;
@@ -504,39 +515,52 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
     position: relative;
   }
 
-  .medical-icon {
-    font-size: 5rem;
+  .restaurant-emojis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
     z-index: 2;
   }
 
-  .medical-cross {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: #ff6b6b;
-    opacity: 0.15;
+  .restaurant-emoji {
+    font-size: 4rem;
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
   }
 
-  .medical-cross::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 120px;
-    height: 40px;
-    background: #ff6b6b;
+  .restaurant-emoji:nth-child(1) {
+    animation-delay: 0s;
   }
 
-  .medical-cross::after {
-    content: '';
+  .restaurant-emoji:nth-child(2) {
+    animation-delay: 0.5s;
+  }
+
+  .restaurant-emoji:nth-child(3) {
+    animation-delay: 1s;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .restaurant-pattern {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px;
-    height: 120px;
-    background: #ff6b6b;
+    inset: 0;
+    background: 
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 20px,
+        rgba(255,255,255,0.05) 20px,
+        rgba(255,255,255,0.05) 40px
+      );
   }
 
   .place-content {

@@ -42,16 +42,10 @@ collections:
         options:
           - { label: Restaurant, value: restaurant }
           - { label: Organization, value: organization }
-          - { label: Medical, value: medical }
       - { name: location, label: Location, widget: string, i18n: true }
       - { name: locationBadge, label: Location Badge, widget: string, i18n: true }
       - { name: address, label: Address, widget: string, i18n: duplicate }
-      - { name: hours, label: Hours, widget: string, i18n: duplicate }
-      - { name: rating, label: Rating, widget: number, value_type: float, required: false, i18n: duplicate }
       - { name: verified, label: Verified, widget: boolean, required: false, i18n: duplicate }
-      - { name: phone, label: Phone, widget: string, required: false, i18n: duplicate }
-      - { name: priceLevel, label: Price Level, widget: string, required: false, i18n: duplicate }
-      - { name: insurance, label: Insurance, widget: string, required: false, i18n: true }
       - { name: tags, label: Tags, widget: list, i18n: true, field: { name: tag, widget: string } }
       - name: ctaPrimary
         label: Primary CTA

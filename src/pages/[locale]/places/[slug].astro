@@ -71,54 +71,13 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
               <span class="detail-value">{data.address}</span>
             </div>
           </div>
-          
-          <div class="detail-item">
-            <span class="detail-icon">🕐</span>
-            <div class="detail-text">
-              <span class="detail-label">{t(locale, 'place.hours')}</span>
-              <span class="detail-value">{data.hours}</span>
-            </div>
-          </div>
-          
-          {data.phone && (
-            <div class="detail-item">
-              <span class="detail-icon">📞</span>
-              <div class="detail-text">
-                <span class="detail-label">{t(locale, 'place.phone')}</span>
-                <span class="detail-value">{data.phone}</span>
-              </div>
-            </div>
-          )}
-          
-          {data.priceLevel && (
-            <div class="detail-item">
-              <span class="detail-icon">💰</span>
-              <div class="detail-text">
-                <span class="detail-label">{t(locale, 'place.price')}</span>
-                <span class="detail-value">{data.priceLevel}</span>
-              </div>
-            </div>
-          )}
-          
-          {data.insurance && (
-            <div class="detail-item">
-              <span class="detail-icon">💳</span>
-              <div class="detail-text">
-                <span class="detail-label">{t(locale, 'place.insurance')}</span>
-                <span class="detail-value">{data.insurance}</span>
-              </div>
-            </div>
-          )}
         </div>
         
-        <!-- CTA Buttons -->
+        <!-- CTA Button -->
         <div class="cta-stack">
           <a href={data.ctaPrimary.url} class="cta-primary">
             {data.ctaPrimary.label}
             <span class="cta-arrow">→</span>
-          </a>
-          <a href={data.ctaSecondary.url} class="cta-secondary">
-            {data.ctaSecondary.label}
           </a>
         </div>
         
@@ -350,15 +309,14 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
     line-height: 1.3;
   }
 
-  /* CTA Buttons */
+  /* CTA Button */
   .cta-stack {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
   }
 
-  .cta-primary,
-  .cta-secondary {
+  .cta-primary {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -373,30 +331,14 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
     box-shadow: 4px 4px 0 #000;
     transition: all 0.15s ease;
     text-decoration: none;
-  }
-
-  .cta-primary {
     background: #0066CC;
     color: #fff;
   }
 
-  .cta-secondary {
-    background: #fff;
-    color: #000;
-  }
-
-  .cta-primary:hover,
-  .cta-secondary:hover {
+  .cta-primary:hover {
     transform: translate(2px, 2px);
     box-shadow: 2px 2px 0 #000;
-  }
-
-  .cta-primary:hover {
     background: #004a99;
-  }
-
-  .cta-secondary:hover {
-    background: #ffeb80;
   }
 
   .cta-arrow {
