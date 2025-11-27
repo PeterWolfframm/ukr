@@ -22,6 +22,7 @@ import PoweredBy from './PoweredBy.astro';
 
   .navbar :global(.powered-by--header) {
     margin-top: 0;
+    margin-right: 10vw;
   }
 
   .navbar-brand {
@@ -73,17 +74,32 @@ import PoweredBy from './PoweredBy.astro';
     color: #000;
   }
 
-  /* Mobile */
-  @media (max-width: 640px) {
+  /* Tablet */
+  @media (max-width: 768px) {
     .navbar {
-      padding: 0.75rem 1rem;
-      flex-wrap: wrap;
-      gap: 0.75rem;
+      padding: 0.875rem 1.25rem;
+    }
+
+    .navbar :global(.powered-by--header) {
+      margin-right: 0;
     }
 
     .brand-text,
     .brand-text-accent {
-      font-size: 1.1rem;
+      font-size: 1.25rem;
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .navbar {
+      padding: 0.75rem 1rem;
+      gap: 0.5rem;
+    }
+
+    .brand-text,
+    .brand-text-accent {
+      font-size: 1rem;
     }
 
     .brand-text {
@@ -95,6 +111,31 @@ import PoweredBy from './PoweredBy.astro';
       -webkit-text-stroke: 1.5px #0066CC;
       text-stroke: 1.5px #0066CC;
       transform: translate(1px, 1px);
+    }
+
+    .navbar :global(.powered-by--header .powered-by__text) {
+      display: none;
+    }
+
+    .navbar :global(.powered-by--header .powered-by__logo) {
+      height: 32px;
+    }
+  }
+
+  /* Extra small mobile */
+  @media (max-width: 380px) {
+    .navbar {
+      padding: 0.625rem 0.75rem;
+    }
+
+    .brand-text,
+    .brand-text-accent {
+      font-size: 0.875rem;
+      gap: 0.25rem;
+    }
+
+    .navbar :global(.powered-by--header .powered-by__logo) {
+      height: 28px;
     }
   }
 </style>

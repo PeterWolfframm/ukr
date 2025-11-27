@@ -15,12 +15,17 @@ const { layout = 'footer' } = Astro.props;
   .powered-by {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.625rem;
     text-decoration: none;
     color: inherit;
     border: none;
     box-shadow: none;
     background: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .powered-by:hover {
+    opacity: 0.75;
   }
 
   .powered-by:hover,
@@ -34,15 +39,17 @@ const { layout = 'footer' } = Astro.props;
   }
 
   .powered-by__text {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #666;
     letter-spacing: 0.02em;
+    white-space: nowrap;
   }
 
   .powered-by__logo {
-    height: 48px;
+    height: 40px;
     width: auto;
+    flex-shrink: 0;
   }
 
   /* Header variant */
@@ -51,11 +58,11 @@ const { layout = 'footer' } = Astro.props;
   }
 
   .powered-by--header .powered-by__text {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 
   .powered-by--header .powered-by__logo {
-    height: 48px;
+    height: 36px;
   }
 
   /* Footer variant */
@@ -71,6 +78,29 @@ const { layout = 'footer' } = Astro.props;
 
   .powered-by--footer .powered-by__logo {
     height: 64px;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 640px) {
+    .powered-by {
+      gap: 0.5rem;
+    }
+
+    .powered-by__text {
+      font-size: 0.9rem;
+    }
+
+    .powered-by__logo {
+      height: 32px;
+    }
+
+    .powered-by--footer .powered-by__text {
+      font-size: 1.1rem;
+    }
+
+    .powered-by--footer .powered-by__logo {
+      height: 48px;
+    }
   }
 </style>
 

@@ -39,6 +39,12 @@ export const ui = {
     // Detail page
     'back.link': 'Zurück zu allen Orten',
     
+    // Pagination
+    'pagination.prev': 'Zurück',
+    'pagination.next': 'Weiter',
+    'pagination.page': 'Seite',
+    'pagination.of': 'von',
+    
     // Footer
     'footer.slava': 'Slava Ukraini',
     
@@ -76,6 +82,12 @@ export const ui = {
     
     // Detail page
     'back.link': 'Назад до всіх місць',
+    
+    // Pagination
+    'pagination.prev': 'Назад',
+    'pagination.next': 'Далі',
+    'pagination.page': 'Сторінка',
+    'pagination.of': 'з',
     
     // Footer
     'footer.slava': 'Слава Україні',

@@ -13,8 +13,8 @@ ctaPrimary:
 ctaSecondary:
   label: Забронювати стіл
   url: "#"
-image: /odessa_restaurant.jpg
-mapEmbed: "<!-- Map недоступна -->"
+image: https://plus.unsplash.com/premium_photo-1732823990841-fd77be390efd?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+mapEmbed: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5316.996967924448!2d16.354079112888087!3d48.216275171132395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476d07bf1140de21%3A0x93ca314c38205e61!2sCaf%C3%A9%20Telegraph!5e0!3m2!1sen!2sat!4v1764251181384!5m2!1sen!2sat" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
 ---
 
 Невеликий ресторан у 3-му районі Вієнни, Odessa Restaurant, можливо, пропонує суміш східноєвропейських або міжнародних страв, хоча конкретна громадська інформація обмежена.

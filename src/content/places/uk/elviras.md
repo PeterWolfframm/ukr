@@ -14,7 +14,7 @@ ctaPrimary:
 ctaSecondary:
   label: Забронювати стіл
   url: "#"
-image: /elviras.jpg
+image: https://images.unsplash.com/photo-1565711561500-49678a10a63f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
 mapEmbed: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2655.654321!2d16.388!3d48.205!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476d07c4abcdef01%3A0x1234567890abcdef!2sElvira%27s%20Restaurant!5e0!3m2!1sen!2sat!4v0000000000001!5m2!1sen!2sat" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
 ---
 

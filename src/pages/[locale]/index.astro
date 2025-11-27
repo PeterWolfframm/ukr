@@ -93,7 +93,7 @@ function getRestaurantBlueShade(slug: string): number {
 
       <!-- Places Section -->
       <section class="section places-section">
-        <div class="places-grid">
+        <div class="places-grid" id="places-grid">
           {places.map((place) => {
             const { data } = place;
             const slug = place.id.replace(`${locale}/`, '');
@@ -150,6 +150,24 @@ function getRestaurantBlueShade(slug: string): number {
             );
           })}
         </div>
+
+        <!-- Pagination -->
+        <nav class="pagination" id="pagination" aria-label="Pagination">
+          <button class="pagination-btn prev" id="prev-btn" disabled>
+            <span class="pagination-arrow">←</span>
+            {t(locale, 'pagination.prev')}
+          </button>
+          <div class="pagination-info">
+            <span class="pagination-text">{t(locale, 'pagination.page')}</span>
+            <span class="pagination-current" id="current-page">1</span>
+            <span class="pagination-text">{t(locale, 'pagination.of')}</span>
+            <span class="pagination-total" id="total-pages">1</span>
+          </div>
+          <button class="pagination-btn next" id="next-btn">
+            {t(locale, 'pagination.next')}
+            <span class="pagination-arrow">→</span>
+          </button>
+        </nav>
 
         <!-- MyPaperwork RWR Card -->
         <MyPaperworkCard locale={locale} />
@@ -371,6 +389,89 @@ function getRestaurantBlueShade(slug: string): number {
     display: grid;
     gap: 2rem;
     grid-template-columns: 1fr;
+  }
+
+  /* Pagination */
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 4px solid #000;
+  }
+
+  .pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 4px solid #000;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 3px 3px 0 #000;
+  }
+
+  .pagination-btn:hover:not(:disabled) {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 #000;
+    background: #0066CC;
+    color: #fff;
+  }
+
+  .pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .pagination-arrow {
+    font-size: 1.1rem;
+    font-weight: 900;
+  }
+
+  .pagination-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: #ffeb80;
+    border: 4px solid #000;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+  }
+
+  .pagination-current {
+    font-size: 1.1rem;
+    color: #0066CC;
+  }
+
+  .pagination-total {
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 640px) {
+    .pagination {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .pagination-btn {
+      padding: 0.6rem 1rem;
+      font-size: 0.75rem;
+    }
+
+    .pagination-info {
+      order: -1;
+      width: 100%;
+      justify-content: center;
+    }
   }
 
   /* Place Card */
@@ -961,27 +1062,101 @@ function getRestaurantBlueShade(slug: string): number {
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-    const placeCards = document.querySelectorAll<HTMLDivElement>('.place-card');
+    const ITEMS_PER_PAGE = 3;
+    let currentPage = 1;
+    let currentFilter = 'all';
 
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const placeCards = document.querySelectorAll<HTMLAnchorElement>('.place-card');
+    const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement;
+    const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
+    const currentPageEl = document.getElementById('current-page')!;
+    const totalPagesEl = document.getElementById('total-pages')!;
+    const pagination = document.getElementById('pagination')!;
+
+    function getFilteredCards(): HTMLAnchorElement[] {
+      return Array.from(placeCards).filter(card => 
+        currentFilter === 'all' || card.dataset.category === currentFilter
+      );
+    }
+
+    function getTotalPages(): number {
+      const filteredCards = getFilteredCards();
+      return Math.ceil(filteredCards.length / ITEMS_PER_PAGE);
+    }
+
+    function updatePagination() {
+      const totalPages = getTotalPages();
+      const filteredCards = getFilteredCards();
+
+      // Hide pagination if 3 or fewer items
+      if (filteredCards.length <= ITEMS_PER_PAGE) {
+        pagination.style.display = 'none';
+      } else {
+        pagination.style.display = 'flex';
+      }
+
+      // Update page info
+      currentPageEl.textContent = currentPage.toString();
+      totalPagesEl.textContent = totalPages.toString();
+
+      // Update button states
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage >= totalPages;
+    }
+
+    function renderCards() {
+      const filteredCards = getFilteredCards();
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const endIndex = startIndex + ITEMS_PER_PAGE;
+
+      // Hide all cards first
+      placeCards.forEach(card => card.classList.add('hidden'));
+
+      // Show only the cards for current page within the filtered set
+      filteredCards.forEach((card, index) => {
+        if (index >= startIndex && index < endIndex) {
+          card.classList.remove('hidden');
+        }
+      });
+
+      updatePagination();
+    }
+
+    // Filter button click handler
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         // Update active state
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        const filter = btn.dataset.filter;
-
-        // Filter cards
-        placeCards.forEach(card => {
-          if (filter === 'all' || card.dataset.category === filter) {
-            card.classList.remove('hidden');
-          } else {
-            card.classList.add('hidden');
-          }
-        });
+        currentFilter = btn.dataset.filter || 'all';
+        currentPage = 1; // Reset to first page when filter changes
+        renderCards();
       });
     });
+
+    // Pagination button handlers
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderCards();
+        // Scroll to top of places section
+        document.querySelector('.places-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < getTotalPages()) {
+        currentPage++;
+        renderCards();
+        // Scroll to top of places section
+        document.querySelector('.places-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    // Initial render
+    renderCards();
   });
 </script>
 
