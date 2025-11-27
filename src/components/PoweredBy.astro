@@ -1,0 +1,76 @@
+---
+interface Props {
+  layout?: 'header' | 'footer';
+}
+
+const { layout = 'footer' } = Astro.props;
+---
+
+<a href="https://mypaperwork.ai" target="_blank" rel="noopener noreferrer" class={`powered-by powered-by--${layout}`}>
+  <span class="powered-by__text">powered by</span>
+  <img src="/mypaperwork.svg" alt="mypaperwork.ai" class="powered-by__logo" />
+</a>
+
+<style>
+  .powered-by {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+    border: none;
+    box-shadow: none;
+    background: none;
+  }
+
+  .powered-by:hover,
+  .powered-by:focus,
+  .powered-by:active {
+    color: inherit;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    background: none;
+  }
+
+  .powered-by__text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #666;
+    letter-spacing: 0.02em;
+  }
+
+  .powered-by__logo {
+    height: 48px;
+    width: auto;
+  }
+
+  /* Header variant */
+  .powered-by--header {
+    margin-top: 1.5rem;
+  }
+
+  .powered-by--header .powered-by__text {
+    font-size: 1.25rem;
+  }
+
+  .powered-by--header .powered-by__logo {
+    height: 48px;
+  }
+
+  /* Footer variant */
+  .powered-by--footer {
+    border: none;
+    box-shadow: none;
+  }
+
+  .powered-by--footer .powered-by__text {
+    font-size: 1.4rem;
+    text-transform: lowercase;
+  }
+
+  .powered-by--footer .powered-by__logo {
+    height: 64px;
+  }
+</style>
+

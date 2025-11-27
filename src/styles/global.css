@@ -1,0 +1,367 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "daisyui";
+
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(92.8% 0.115 85.5);
+  --secondary-background: oklch(100% 0 0);
+  --foreground: oklch(0% 0 0);
+  --main-foreground: oklch(0% 0 0);
+  --main: oklch(72.27% 0.1894 50.19);
+  --border: oklch(0% 0 0);
+  --ring: oklch(0% 0 0);
+  --overlay: oklch(0% 0 0 / 0.8);
+  --shadow: 2px 2px 0px 0px var(--border);
+  --chart-1: #FF7A05;
+  --chart-2: #0066CC;
+  --chart-3: #ffeb80;
+  --chart-4: #00D696;
+  --chart-5: #7A83FF;
+  --chart-active-dot: #000;
+}
+
+.dark {
+  --background: oklch(26.86% 0.0327 60.06);
+  --secondary-background: oklch(23.93% 0 0);
+  --foreground: oklch(92.49% 0 0);
+  --main-foreground: oklch(0% 0 0);
+  --main: oklch(67.56% 0.1796 49.61);
+  --border: oklch(0% 0 0);
+  --ring: oklch(100% 0 0);
+  --shadow: 2px 2px 0px 0px var(--border);
+  --chart-1: #EB6D00;
+  --chart-2: #0066CC;
+  --chart-3: #ffeb80;
+  --chart-4: #00BD84;
+  --chart-5: #7A83FF;
+  --chart-active-dot: #fff;
+}
+
+@theme inline {
+  --color-main: var(--main);
+  --color-background: var(--background);
+  --color-secondary-background: var(--secondary-background);
+  --color-foreground: var(--foreground);
+  --color-main-foreground: var(--main-foreground);
+  --color-border: var(--border);
+  --color-overlay: var(--overlay);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --spacing-boxShadowX: 2px;
+  --spacing-boxShadowY: 2px;
+  --spacing-reverseBoxShadowX: -2px;
+  --spacing-reverseBoxShadowY: -2px;
+  --radius-base: 10px;
+  --shadow-shadow: var(--shadow);
+  --font-weight-base: 500;
+  --font-weight-heading: 900;
+}
+  
+@layer base {
+  body {
+    @apply text-foreground font-base bg-background;
+  }
+
+  h1, h2, h3, h4, h5, h6{
+    @apply font-heading;
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding-bottom: 1rem;
+    border-bottom: 10px solid #000;
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 160px;
+    height: 10px;
+    background: linear-gradient(90deg, #0066CC 0%, #0066CC 100%);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+    border-bottom: 6px solid #000;
+    margin-bottom: 0.75rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  h4 {
+    font-size: 1.125rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  h5 {
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  h6 {
+    font-size: 0.875rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    @apply text-lg leading-relaxed mb-4;
+  }
+
+  a {
+    border-bottom: 3px solid #000;
+    box-shadow: inset 0 -0.35rem 0 0 #0066CC;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a:hover {
+    background: #0066CC;
+  }
+
+  .neo-card::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border: 6px solid #0066CC;
+    pointer-events: none;
+  }
+
+  /* Prose styles for article content */
+  .prose {
+    line-height: 1.75;
+  }
+
+  .prose p {
+    margin-bottom: 1.5rem;
+  }
+
+  .prose p + p {
+    margin-top: 1.5rem;
+  }
+
+  .prose h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose h4, .prose h5, .prose h6 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Blockquote styling */
+  .prose blockquote {
+    position: relative;
+    margin: 2rem 0;
+    padding: 1.5rem 1.5rem 1.5rem 2rem;
+    background: var(--secondary-background);
+    border: 4px solid var(--border);
+    border-left: 8px solid var(--main);
+    box-shadow: var(--shadow);
+    font-style: italic;
+    font-size: 1.125rem;
+  }
+
+  .prose blockquote::before {
+    content: '"';
+    position: absolute;
+    top: -0.5rem;
+    left: 0.75rem;
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--main);
+    line-height: 1;
+    font-style: normal;
+    opacity: 0.5;
+  }
+
+  .prose blockquote p {
+    margin-bottom: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .prose blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Lists */
+  .prose ul, .prose ol {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .prose ul {
+    list-style-type: none;
+  }
+
+  .prose ul li {
+    position: relative;
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose ul li::before {
+    content: '■';
+    position: absolute;
+    left: 0;
+    color: var(--main);
+    font-size: 0.75rem;
+    top: 0.35rem;
+  }
+
+  .prose ol {
+    list-style-type: none;
+    counter-reset: item;
+  }
+
+  .prose ol li {
+    position: relative;
+    margin-bottom: 0.75rem;
+    padding-left: 2rem;
+    counter-increment: item;
+  }
+
+  .prose ol li::before {
+    content: counter(item);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 900;
+    font-size: 0.875rem;
+    background: var(--main);
+    color: var(--main-foreground);
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--border);
+  }
+
+  /* Code blocks */
+  .prose pre {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    background: var(--secondary-background);
+    border: 4px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .prose code {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.875em;
+    background: var(--secondary-background);
+    padding: 0.2rem 0.4rem;
+    border: 2px solid var(--border);
+    font-weight: 600;
+  }
+
+  .prose pre code {
+    background: none;
+    padding: 0;
+    border: none;
+    font-weight: 400;
+  }
+
+  /* Tables */
+  .prose table {
+    width: 100%;
+    margin: 1.5rem 0;
+    border-collapse: collapse;
+    border: 4px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+
+  .prose th, .prose td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border: 2px solid var(--border);
+  }
+
+  .prose th {
+    background: var(--main);
+    color: var(--main-foreground);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+  }
+
+  .prose tr:nth-child(even) {
+    background: var(--secondary-background);
+  }
+
+  /* Horizontal rules */
+  .prose hr {
+    margin: 2.5rem 0;
+    border: none;
+    height: 6px;
+    background: var(--border);
+    position: relative;
+  }
+
+  .prose hr::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80px;
+    height: 6px;
+    background: var(--main);
+  }
+
+  /* Strong and emphasis */
+  .prose strong {
+    font-weight: 800;
+  }
+
+  .prose em {
+    font-style: italic;
+  }
+
+  /* Links within prose */
+  .prose a {
+    font-weight: 600;
+  }
+}

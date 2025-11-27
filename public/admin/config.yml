@@ -1,0 +1,61 @@
+backend:
+  name: github
+  repo: PeterWolfframm/skunk
+  branch: main
+  base_url: https://sveltia-cms-auth.pw-193.workers.dev
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: blog
+    label: Blog
+    folder: src/content/blog
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: md
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime }
+      - { name: description, label: Description, widget: text }
+      - { name: body, label: Body, widget: markdown }
+
+  - name: places
+    label: Places
+    folder: src/content/places
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    fields:
+      - { name: name, label: Name, widget: string }
+      - name: category
+        label: Category
+        widget: select
+        options:
+          - { label: Restaurant, value: restaurant }
+          - { label: Organization, value: organization }
+          - { label: Medical, value: medical }
+      - { name: location, label: Location, widget: string }
+      - { name: locationBadge, label: Location Badge, widget: string, hint: "e.g. 🇺🇦 КИЇВ" }
+      - { name: address, label: Address, widget: string }
+      - { name: hours, label: Hours, widget: string }
+      - { name: rating, label: Rating, widget: number, value_type: float, required: false }
+      - { name: verified, label: Verified, widget: boolean, required: false }
+      - { name: phone, label: Phone, widget: string, required: false }
+      - { name: priceLevel, label: Price Level, widget: string, required: false, hint: "e.g. ₴₴₴" }
+      - { name: insurance, label: Insurance, widget: string, required: false }
+      - { name: tags, label: Tags, widget: list, field: { name: tag, widget: string } }
+      - name: ctaPrimary
+        label: Primary CTA
+        widget: object
+        fields:
+          - { name: label, label: Label, widget: string }
+          - { name: url, label: URL, widget: string }
+      - name: ctaSecondary
+        label: Secondary CTA
+        widget: object
+        fields:
+          - { name: label, label: Label, widget: string }
+          - { name: url, label: URL, widget: string }
+      - { name: image, label: Image, widget: image, required: false }
+      - { name: body, label: Body, widget: markdown }

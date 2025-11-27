@@ -1,0 +1,101 @@
+---
+import PoweredBy from './PoweredBy.astro';
+---
+
+<nav class="navbar">
+  <a href="/" class="navbar-brand">
+    <span class="brand-text">ukrainian</span>
+    <span class="brand-text-accent">places</span>
+  </a>
+  <PoweredBy layout="header" />
+</nav>
+
+<style>
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: var(--background);
+    border-bottom: 4px solid #000;
+  }
+
+  .navbar :global(.powered-by--header) {
+    margin-top: 0;
+  }
+
+  .navbar-brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    text-decoration: none;
+    border: none;
+    box-shadow: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .navbar-brand:hover {
+    background: none;
+    opacity: 0.8;
+  }
+
+  .brand-text {
+    font-family: 'Bricolage Grotesque', 'Manrope', system-ui, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: transparent;
+    -webkit-text-stroke: 2px #000;
+    text-stroke: 2px #000;
+    position: relative;
+  }
+
+  .brand-text::after {
+    content: 'ukrainian';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: transparent;
+    -webkit-text-stroke: 2px #0066CC;
+    text-stroke: 2px #0066CC;
+    z-index: -1;
+    transform: translate(2px, 2px);
+    pointer-events: none;
+  }
+
+  .brand-text-accent {
+    font-family: 'Bricolage Grotesque', 'Manrope', system-ui, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: #000;
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .navbar {
+      padding: 0.75rem 1rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .brand-text,
+    .brand-text-accent {
+      font-size: 1.1rem;
+    }
+
+    .brand-text {
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+    }
+
+    .brand-text::after {
+      -webkit-text-stroke: 1.5px #0066CC;
+      text-stroke: 1.5px #0066CC;
+      transform: translate(1px, 1px);
+    }
+  }
+</style>
+

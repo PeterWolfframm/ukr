@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+}
+
+const { title = "Skunky Blog" } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content="Thoughts and essays." />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+		<script defer src="https://umami.happylittleventures.com/script.js" data-website-id="dd017a10-8ce4-442e-85bb-5aed67bb1205"></script>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+<style is:global>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		min-height: 100%;
+		background: var(--background);
+		font-family: 'Manrope', system-ui, sans-serif;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: 'Bricolage Grotesque', 'Manrope', system-ui, sans-serif;
+	}
+</style>
