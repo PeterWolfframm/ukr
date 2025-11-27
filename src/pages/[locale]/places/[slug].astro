@@ -53,14 +53,16 @@ const otherLocale = locale === 'de' ? 'uk' : 'de';
 
     <!-- Main Content Grid -->
     <div class="content-grid">
-      <!-- Breadcrumbs above sidebar -->
-      <nav class="neo-breadcrumb">
-        <a href={`${import.meta.env.BASE_URL}${locale}/`}>{t(locale, 'nav.home')}</a>
-        <span>→</span>
-        <span class="current">{data.name}</span>
-      </nav>
       <!-- Sidebar with Details -->
       <aside class="sidebar">
+        <!-- Back to all places -->
+        <nav class="neo-back-top">
+          <a href={`${import.meta.env.BASE_URL}${locale}/`} class="neo-back-link">
+            <span class="neo-back-arrow">←</span>
+            {t(locale, 'back.link')}
+          </a>
+        </nav>
+        
         <div class="neo-details-card">
           <div class="neo-detail-item">
             <span class="neo-detail-icon">📍</span>
