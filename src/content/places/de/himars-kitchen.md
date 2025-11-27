@@ -9,7 +9,7 @@ tags:
   - Modern Ukrainian
   - Vegetarian Options
 ctaPrimary:
-  label: View Menu
+  label: View Menufff
   url: "#"
 ctaSecondary:
   label: Reserve Table
