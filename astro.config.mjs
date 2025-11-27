@@ -11,7 +11,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   integrations: [preact(), partytown(), sitemap(), db()],
   site: 'https://PeterWolfframm.github.io',
-
+  base: '/ukr/',
   vite: {
     plugins: [tailwindcss()]
   }
